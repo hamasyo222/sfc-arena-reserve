@@ -221,7 +221,7 @@ def reserve(event):
         #ライン送るで
 def send_line(day, start_hour, start_minute, end_hour, end_minute):
     url = "https://notify-api.line.me/api/notify"
-    access_token = '57rkwjrRbiWjbHckwbBR2xOETryM0euivjbQLJtLy9t'
+    access_token = os.environ['LINE_NOTIFY_TOKEN']
     headers = {'Authorization': 'Bearer ' + access_token}
     
     message = day + " " + start_hour + ":" + start_minute + "〜" + end_hour + ":" + end_minute + "予約完了"
