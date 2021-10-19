@@ -6,7 +6,6 @@ requests
 selenium
 futures
 lxml
-__future__
 googleapiclient
 google_auth_oauthlib
 google.auth.transport
