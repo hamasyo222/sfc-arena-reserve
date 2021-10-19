@@ -95,12 +95,13 @@ def reserve(event):
     options.add_argument('--proxy-server="direct://"');
     options.add_argument('--proxy-bypass-list=*');
     options.add_argument('--start-maximized');
-    # options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
+    options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
+
 
     #
     # Chromeドライバーの起動
     #
-    DRIVER_PATH = '/Users/hamasyo/Selenium/chromedriver'
+    DRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
     driver = webdriver.Chrome(executable_path=DRIVER_PATH, chrome_options=options)
     driver.implicitly_wait(20)
 
@@ -217,7 +218,7 @@ def reserve(event):
     #main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(2) > td:nth-child(2) > div.time_cell.relative > label:nth-child(3)時間
 
 
-        #ライン送る
+        #ライン送るで
 def send_line(day, start_hour, start_minute, end_hour, end_minute):
     url = "https://notify-api.line.me/api/notify"
     access_token = '57rkwjrRbiWjbHckwbBR2xOETryM0euivjbQLJtLy9t'
