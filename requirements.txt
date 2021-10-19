@@ -8,3 +8,4 @@ futures
 lxml
 google_auth_oauthlib
 google-api-python-client
+google-auth-httplib2
