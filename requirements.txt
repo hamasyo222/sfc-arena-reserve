@@ -7,4 +7,3 @@ selenium
 futures
 lxml
 google_auth_oauthlib
-google.auth.transport
