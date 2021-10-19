@@ -1,0 +1,12 @@
+chromedriver
+chromedriver-binary
+urllib3
+beautifulsoup4
+requests
+selenium
+futures
+lxml
+__future__
+googleapiclient
+google_auth_oauthlib
+google.auth.transport
