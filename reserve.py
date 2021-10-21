@@ -24,7 +24,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
-def calender(mes1):
+def calender():
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
@@ -62,13 +62,12 @@ def calender(mes1):
     if not events:
         print('No upcoming events found.')
     for event in events:
-        mes2 = datetime.datetime.utcnow()
-        reserve(event, mes1, mes2)
+        reserve(event)
 
         
 
 
-def reserve(event, mes1, mes2):
+def reserve(event):
     #ここから操作のための定義
     start_str = event['start'].get('dateTime', event['start'].get('date'))
     end_str = event['end'].get('dateTime', event['end'].get('date'))
@@ -98,6 +97,14 @@ def reserve(event, mes1, mes2):
     options.add_argument('--proxy-bypass-list=*');
     options.add_argument('--start-maximized');
     options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
+
+    #0:00まで待機
+    y = start.year
+    m = start.month
+    d = start.day
+
+    while datetime.datetime.now() < datetime.datetime(y, m, d, 1, 48, 00):
+        time.sleep(1)
 
 
     #
@@ -211,8 +218,7 @@ def reserve(event, mes1, mes2):
     while not driver.find_element_by_css_selector('body > div:nth-child(20)').is_displayed():
         print("waiting on display")
     driver.find_element_by_css_selector('body > div:nth-child(20) > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').click()
-    mes3 = datetime.datetime.utcnow()
-    send_line(day, start_hour, start_minute, end_hour, end_minute, mes1, mes2, mes3)
+    send_line(day, start_hour, start_minute, end_hour, end_minute)
 
 
     #main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(1)行 > td:nth-child(2) > div.time_cell.relative > label:nth-child(4)
@@ -221,14 +227,14 @@ def reserve(event, mes1, mes2):
 
 
         #ライン送るで
-def send_line(day, start_hour, start_minute, end_hour, end_minute, mes1, mes2, mes3):
+def send_line(day, start_hour, start_minute, end_hour, end_minute):
     url = "https://notify-api.line.me/api/notify"
     access_token = os.environ['LINE_NOTIFY_TOKEN']
     headers = {'Authorization': 'Bearer ' + access_token}
     
     message = day + " " + start_hour + ":" + start_minute + "〜" + end_hour + ":" + end_minute + "予約完了"
     data = {
-        "message": message + str(mes1) + str(mes2) + str(mes3)
+        "message": message
     }
 
     requests.post(
@@ -240,6 +246,5 @@ def send_line(day, start_hour, start_minute, end_hour, end_minute, mes1, mes2, m
 
 
 if __name__ == '__main__':
-    mes1 = datetime.datetime.utcnow()
-    calender(mes1)
+    calender()
     
