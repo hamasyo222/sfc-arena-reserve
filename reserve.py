@@ -24,10 +24,11 @@ from selenium.webdriver.common.action_chains import ActionChains
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
-def calender():
+def calender(mes1):
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
+
     creds = None
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
@@ -61,12 +62,13 @@ def calender():
     if not events:
         print('No upcoming events found.')
     for event in events:
-      reserve(event)
+        mes2 = datetime.datetime.utcnow()
+        reserve(event, mes1, mes2)
 
         
 
 
-def reserve(event):
+def reserve(event, mes1, mes2):
     #ここから操作のための定義
     start_str = event['start'].get('dateTime', event['start'].get('date'))
     end_str = event['end'].get('dateTime', event['end'].get('date'))
@@ -209,8 +211,8 @@ def reserve(event):
     while not driver.find_element_by_css_selector('body > div:nth-child(20)').is_displayed():
         print("waiting on display")
     driver.find_element_by_css_selector('body > div:nth-child(20) > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').click()
- 
-    send_line(day, start_hour, start_minute, end_hour, end_minute)
+    mes3 = datetime.datetime.utcnow()
+    send_line(day, start_hour, start_minute, end_hour, end_minute, mes1, mes2, mes3)
 
 
     #main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(1)行 > td:nth-child(2) > div.time_cell.relative > label:nth-child(4)
@@ -219,14 +221,14 @@ def reserve(event):
 
 
         #ライン送るで
-def send_line(day, start_hour, start_minute, end_hour, end_minute):
+def send_line(day, start_hour, start_minute, end_hour, end_minute, mes1, mes2, mes3):
     url = "https://notify-api.line.me/api/notify"
     access_token = os.environ['LINE_NOTIFY_TOKEN']
     headers = {'Authorization': 'Bearer ' + access_token}
     
     message = day + " " + start_hour + ":" + start_minute + "〜" + end_hour + ":" + end_minute + "予約完了"
     data = {
-        "message": message
+        "message": message + mes1 + mes2 + mes3
     }
 
     requests.post(
@@ -238,4 +240,6 @@ def send_line(day, start_hour, start_minute, end_hour, end_minute):
 
 
 if __name__ == '__main__':
-    calender()
+    mes1 = datetime.datetime.utcnow()
+    calender(mes1)
+    
