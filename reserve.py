@@ -99,18 +99,20 @@ def reserve(event):
     options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
 
     #0:00まで待機
-    y = start.year
-    m = start.month
-    d = start.day
+    res_date = start - datetime.timedelta(day = 14)
+    y = res_date.year
+    m = res_date.month
+    d = res_date.day
 
-    while datetime.datetime.now() < datetime.datetime(y, m, d, 1, 48, 00):
+    while datetime.datetime.now() < datetime.datetime(y, m, d, 1, 55, 00):
         time.sleep(1)
 
 
     #
     # Chromeドライバーの起動
     #
-    DRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
+    DRIVER_PATH = '/app/.chromedriver/bin/chromedriver' #heroku
+    #DRIVER_PATH = '/Users/hamasyo/Selenium/chromedriver' #ローカル
     driver = webdriver.Chrome(executable_path=DRIVER_PATH, chrome_options=options)
     driver.implicitly_wait(20)
 
