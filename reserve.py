@@ -99,12 +99,12 @@ def reserve(event):
     options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
 
     #0:00まで待機
-    res_date = start - datetime.timedelta(day = 14)
+    res_date = start - datetime.timedelta(days=14)
     y = res_date.year
     m = res_date.month
     d = res_date.day
 
-    while datetime.datetime.now() < datetime.datetime(y, m, d, 2, 12, 00):
+    while datetime.datetime.now() < datetime.datetime(y, m, d, 2, 32, 00):
         time.sleep(1)
 
 
