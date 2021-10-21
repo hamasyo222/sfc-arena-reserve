@@ -228,7 +228,7 @@ def send_line(day, start_hour, start_minute, end_hour, end_minute, mes1, mes2, m
     
     message = day + " " + start_hour + ":" + start_minute + "〜" + end_hour + ":" + end_minute + "予約完了"
     data = {
-        "message": message + mes1 + mes2 + mes3
+        "message": message + str(mes1) + str(mes2) + str(mes3)
     }
 
     requests.post(
