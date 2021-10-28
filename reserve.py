@@ -220,6 +220,7 @@ def reserve(event):
     while not driver.find_element_by_css_selector('body > div:nth-child(20)').is_displayed():
         print("waiting on display")
     driver.find_element_by_css_selector('body > div:nth-child(20) > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').click()
+    time.sleep(3)
     send_line(day, start_hour, start_minute, end_hour, end_minute)
 
 
