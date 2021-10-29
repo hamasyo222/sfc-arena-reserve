@@ -54,6 +54,8 @@ def calender():
     min = (datetime.datetime.utcnow() + datetime.timedelta(days=14)).isoformat() + 'Z' # 'Z' indicates UTC time
     max = (datetime.datetime.utcnow() + datetime.timedelta(days=15)).isoformat() + 'Z'
     print('Getting the 2weeks later event')
+    print(min)
+    print(max)
     events_result = service.events().list(calendarId='3442e499hjv4j581l1c68n4v2g@group.calendar.google.com', timeMin=min,
                                         timeMax=max,maxResults=1, singleEvents=True,
                                         orderBy='startTime').execute()
