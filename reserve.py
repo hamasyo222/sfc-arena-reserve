@@ -18,6 +18,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
+import traceback
+import sys
 
 
 
@@ -70,160 +72,171 @@ def calender():
 
 
 def reserve(event):
-    #ここから操作のための定義
-    start_str = event['start'].get('dateTime', event['start'].get('date'))
-    end_str = event['end'].get('dateTime', event['end'].get('date'))
-    start = datetime.datetime.strptime(start_str, '%Y-%m-%dT%H:%M:%S+09:00')
-    end = datetime.datetime.strptime(end_str, '%Y-%m-%dT%H:%M:%S+09:00')
-    day = start.strftime("%Y/%m/%d")
-    start_hour = f'{start.hour:02}'
-    start_minute = f'{start.minute:02}'
-    end_hour = f'{end.hour:02}'
-    end_minute = f'{end.minute:02}'
-    true_start_hour = f'{(start + datetime.timedelta(minutes=5)).hour:02}'
-    true_start_minute = f'{(start + datetime.timedelta(minutes=5)).minute:02}'
-    true_end_hour = f'{(end + datetime.timedelta(minutes=5)).hour:02}'
-    true_end_minute = f'{(end - datetime.timedelta(minutes=5)).minute:02}'
+    try:    
+        #ここから操作のための定義
+        start_str = event['start'].get('dateTime', event['start'].get('date'))
+        end_str = event['end'].get('dateTime', event['end'].get('date'))
+        start = datetime.datetime.strptime(start_str, '%Y-%m-%dT%H:%M:%S+09:00')
+        end = datetime.datetime.strptime(end_str, '%Y-%m-%dT%H:%M:%S+09:00')
+        day = start.strftime("%Y/%m/%d")
+        start_hour = f'{start.hour:02}'
+        start_minute = f'{start.minute:02}'
+        end_hour = f'{end.hour:02}'
+        end_minute = f'{end.minute:02}'
 
-    print(start, day, start_hour, start_minute, end_hour, end_minute, true_start_minute, true_end_minute)
+        print(start, day, start_hour, start_minute, end_hour, end_minute)
 
 
-    # 操作する
-    #
-    # Seleniumをあらゆる環境で起動させるオプション
-    #
-    options = Options()
-    options.add_argument('--disable-gpu');
-    options.add_argument('--disable-extensions');
-    options.add_argument('--proxy-server="direct://"');
-    options.add_argument('--proxy-bypass-list=*');
-    options.add_argument('--start-maximized');
-    options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
+        # 操作する
+        #
+        # Seleniumをあらゆる環境で起動させるオプション
+        #
+        options = Options()
+        options.add_argument('--disable-gpu');
+        options.add_argument('--disable-extensions');
+        options.add_argument('--proxy-server="direct://"');
+        options.add_argument('--proxy-bypass-list=*');
+        options.add_argument('--start-maximized');
+        options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
 
-    #0:00まで待機
-    res_date = start - datetime.timedelta(days=14)
-    y = res_date.year
-    m = res_date.month
-    d = res_date.day
+        #0:00まで待機
+        res_date = start - datetime.timedelta(days=14)
+        y = res_date.year
+        m = res_date.month
+        d = res_date.day
 
-    while datetime.datetime.now() < datetime.datetime(y, m, d, 0, 0, 00):
-        time.sleep(1)
-
-
-    #
-    # Chromeドライバーの起動
-    #
-    DRIVER_PATH = '/app/.chromedriver/bin/chromedriver' #heroku
-    #DRIVER_PATH = '/Users/hamasyo/Selenium/chromedriver' #ローカル
-    driver = webdriver.Chrome(executable_path=DRIVER_PATH, chrome_options=options)
-    driver.implicitly_wait(20)
-
-    #施設予約システムにアクセス
-    driver.get("https://eqres01.adst.keio.ac.jp/")
-
-    ##1秒待つ
-    ##time.sleep(1)
-
-    ##keio.jp認証有無(遷移確認)
-    ##if "https://auth.keio.jp/idp/profile/SAML2/Redirect/SSO" in driver.current_url:
-    #ID
-    driver.find_element_by_css_selector('#username').send_keys('hamasyo222@keio.jp')
-
-    #パスワード
-    driver.find_element_by_css_selector('#password').send_keys('Konnitiwa196')
-
-    #ログイン
-    driver.find_element_by_css_selector('#login > section.form-element-wrapper.login_b > button').click()
-
-    ##1秒待つ
-    ##time.sleep(1)
-
-    ##予約キー有無
-    ##if driver.current_url == "https://eqres01.adst.keio.ac.jp/reservaion-key":
-    #予約キー
-    driver.find_element_by_css_selector('#main_content > div > div.container_body > form > div > dl > dd > input[type=text]').send_keys('0405241')
-
-    #次へ
-    driver.find_element_by_css_selector('#main_content > div > div.container_body > form > div > dl > button').click()
-
-    #画面遷移
-
-    #今日の日付取得(操作前定義で行なっているためスキップ)
-    #today = datetime.date.today()
-    #two_weeks_lator = today + datetime.timedelta(days=14)
-    #two_weeks_lator = two_weeks_lator.strftime("%Y/%m/%d")
+        #while datetime.datetime.now() < datetime.datetime(y, m, d, 0, 0, 00):
+            #time.sleep(1)
 
 
-    #期間始まり
-    driver.find_element_by_name('s2[reservation_date]').click()
-    driver.find_element_by_name('s2[reservation_date]').clear()
-    driver.find_element_by_name('s2[reservation_date]').send_keys(day)
-    #期間終わり
-    driver.find_element_by_name('s2[reservation_date_to]').send_keys(day)
+        #
+        # Chromeドライバーの起動
+        #
+        DRIVER_PATH = '/app/.chromedriver/bin/chromedriver' #heroku
+        #DRIVER_PATH = '/Users/hamasyo/Selenium/chromedriver' #ローカル
+        driver = webdriver.Chrome(executable_path=DRIVER_PATH, options=options)
+        driver.implicitly_wait(20)
 
-    #施設の種類
-    driver.find_element_by_css_selector('#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > div > div > div:nth-child(2) > label:nth-child(3) > input').click()
+        #施設予約システムにアクセス
+        driver.get("https://eqres01.adst.keio.ac.jp/")
 
-    #種類
-    #driver.find_element_by_css_selector('#s2-control_division_id').click()
-    #プルダウン選択
-    Select(driver.find_element_by_css_selector('#s2-control_division_id')).select_by_value("113")
+        ##1秒待つ
+        ##time.sleep(1)
 
-    #検索
-    driver.find_element_by_css_selector('#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > button').click()
+        ##keio.jp認証有無(遷移確認)
+        ##if "https://auth.keio.jp/idp/profile/SAML2/Redirect/SSO" in driver.current_url:
+        #ID
+        driver.find_element_by_css_selector('#username').send_keys('hamasyo222@keio.jp')
 
-    #画面遷移
+        #パスワード
+        driver.find_element_by_css_selector('#password').send_keys('Konnitiwa196')
 
-    #時間選択 アリーナ奥
-    driver.find_element_by_css_selector('#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(2) > td:nth-child(2) > div.time_cell.relative > label:nth-child(61)').click()
+        #ログイン
+        driver.find_element_by_css_selector('#login > section.form-element-wrapper.login_b > button').click()
 
-    #開始プルダウン
-    #時間
-    Select(driver.find_element_by_css_selector('#reservation_start_h')).select_by_value(start_hour)
-    #分
-    Select(driver.find_element_by_css_selector('#reservation_start_m')).select_by_value(start_minute)
-    #終了プルダウン
-    #時間
-    Select(driver.find_element_by_css_selector('#reservation_end_h')).select_by_value(end_hour)
-    #分
-    Select(driver.find_element_by_css_selector('#reservation_end_m')).select_by_value(end_minute)
+        ##1秒待つ
+        ##time.sleep(1)
 
-    #実開始プルダウン
-    #時間
-    Select(driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(10) > div > div:nth-child(2) > select')).select_by_value(true_start_hour)
-    #分
-    Select(driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(10) > div > div:nth-child(3) > select')).select_by_value(true_start_minute)
+        ##予約キー有無
+        ##if driver.current_url == "https://eqres01.adst.keio.ac.jp/reservaion-key":
+        #予約キー
+        driver.find_element_by_css_selector('#main_content > div > div.container_body > form > div > dl > dd > input[type=text]').send_keys('0405241')
 
-    #実終了プルダウン
-    #時間
-    Select(driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(12) > div > div:nth-child(1) > select')).select_by_value(true_end_hour)
-    #分
-    Select(driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(12) > div > div:nth-child(2) > select')).select_by_value(true_end_minute)
+        #次へ
+        driver.find_element_by_css_selector('#main_content > div > div.container_body > form > div > dl > button').click()
 
-    #名称
-    driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(18) > input[type=text]').send_keys('バドミントン練習')
+        #画面遷移
 
-    #人数(塾内)
-    driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').clear()
-    driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').send_keys('15')
+        #今日の日付取得(操作前定義で行なっているためスキップ)
+        #today = datetime.date.today()
+        #two_weeks_lator = today + datetime.timedelta(days=14)
+        #two_weeks_lator = two_weeks_lator.strftime("%Y/%m/%d")
 
-    #e-mail
-    driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(30) > div > input[type=text]:nth-child(1)').send_keys('t20651sh@sfc.keio.ac.jp')
 
-    #連絡先
-    driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(32) > input[type=text]').send_keys('08014671953')
+        #期間始まり
+        driver.find_element_by_name('s2[reservation_date]').click()
+        driver.find_element_by_name('s2[reservation_date]').clear()
+        driver.find_element_by_name('s2[reservation_date]').send_keys(day)
+        #期間終わり
+        driver.find_element_by_name('s2[reservation_date_to]').send_keys(day)
 
-    #登録する
-    driver.find_element_by_css_selector('#reservation-form > button').click()
+        #施設の種類
+        driver.find_element_by_css_selector('#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > div > div > div:nth-child(2) > label:nth-child(3) > input').click()
 
-    #画面遷移
+        #種類
+        #driver.find_element_by_css_selector('#s2-control_division_id').click()
+        #プルダウン選択
+        Select(driver.find_element_by_css_selector('#s2-control_division_id')).select_by_value("113")
 
-    #ダイアログ (最終)
-    while not driver.find_element_by_css_selector('body > div:nth-child(20)').is_displayed():
-        print("waiting on display")
-    driver.find_element_by_css_selector('body > div:nth-child(20) > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').click()
-    time.sleep(3)
-    send_line(day, start_hour, start_minute, end_hour, end_minute)
+        #検索
+        driver.find_element_by_css_selector('#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > button').click()
+
+        #画面遷移
+
+        #時間選択 アリーナ奥
+        driver.find_element_by_css_selector('#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(2) > td:nth-child(2) > div.time_cell.relative > label:nth-child(61)').click()
+
+        #開始プルダウン
+        #時間
+        Select(driver.find_element_by_css_selector('#reservation_start_h')).select_by_value(start_hour)
+        #分
+        Select(driver.find_element_by_css_selector('#reservation_start_m')).select_by_value(start_minute)
+        #終了プルダウン
+        #時間
+        Select(driver.find_element_by_css_selector('#reservation_end_h')).select_by_value(end_hour)
+        #分
+        Select(driver.find_element_by_css_selector('#reservation_end_m')).select_by_value(end_minute)
+
+        #実開始プルダウン
+        #時間
+        Select(driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(10) > div > div:nth-child(2) > select')).select_by_value(start_hour)
+        #分
+        Select(driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(10) > div > div:nth-child(3) > select')).select_by_value(start_minute)
+
+        #実終了プルダウン
+        #時間
+        Select(driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(12) > div > div:nth-child(1) > select')).select_by_value(end_hour)
+        #分
+        Select(driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(12) > div > div:nth-child(2) > select')).select_by_value(end_minute)
+
+        #名称
+        driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(18) > input[type=text]').send_keys('バドミントン練習')
+
+        #人数(塾内)
+        driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').clear()
+        driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').send_keys('15')
+
+        #e-mail
+        driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(30) > div > input[type=text]:nth-child(1)').send_keys('t20651sh@sfc.keio.ac.jp')
+
+        #連絡先
+        driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(32) > input[type=text]').send_keys('08014671953')
+
+        #登録する
+        driver.find_element_by_css_selector('#reservation-form > button').click()
+
+        #画面遷移
+
+        #ダイアログ (最終)
+        while not driver.find_element_by_css_selector('body > div:nth-child(20)').is_displayed():
+            print("waiting on display")
+        driver.find_element_by_css_selector('body > div:nth-child(20) > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').click()
+
+        #画面遷移
+        time.sleep(5)
+
+        #完了確認
+        driver.find_element_by_css_selector('body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button').click()
+
+    except Exception as e:
+        error = str(traceback.format_exc()) +"\ " + str(e)
+        if len(error) > 950:
+            errors = [error[i: i+950] for i in range(0, len(error), 950)]
+        for j in range(len(errors)):
+            send_line(errors[j])
+    else:
+        message = day + " " + start_hour + ":" + start_minute + "〜" + end_hour + ":" + end_minute + "予約完了"
+        send_line(message)
 
 
     #main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(1)行 > td:nth-child(2) > div.time_cell.relative > label:nth-child(4)
@@ -232,12 +245,13 @@ def reserve(event):
 
 
         #ライン送るで
-def send_line(day, start_hour, start_minute, end_hour, end_minute):
+def send_line(message):
     url = "https://notify-api.line.me/api/notify"
-    access_token = os.environ['LINE_NOTIFY_TOKEN']
+    access_token = os.environ['LINE_NOTIFY_TOKEN']#heroku
+    #access_token = "3zeIgq607vBA4zkzUDxoBac3oxe4puqOCg7CKhuaczr"#ローカル
     headers = {'Authorization': 'Bearer ' + access_token}
     
-    message = day + " " + start_hour + ":" + start_minute + "〜" + end_hour + ":" + end_minute + "予約完了"
+    message = message
     data = {
         "message": message
     }
