@@ -67,8 +67,60 @@ def calender():
         print('No upcoming events found.')
     for event in events:
         reserve(event)
-
         
+def enter(driver, start_hour, start_minute, end_hour, end_minute):
+
+    #開始プルダウン
+    #時間
+    Select(driver.find_element_by_css_selector('#reservation_start_h')).select_by_value(start_hour)
+    #分
+    Select(driver.find_element_by_css_selector('#reservation_start_m')).select_by_value(start_minute)
+    #終了プルダウン
+    #時間
+    Select(driver.find_element_by_css_selector('#reservation_end_h')).select_by_value(end_hour)
+    #分
+    Select(driver.find_element_by_css_selector('#reservation_end_m')).select_by_value(end_minute)
+
+    #実開始プルダウン
+    #時間
+    Select(driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(10) > div > div:nth-child(2) > select')).select_by_value(start_hour)
+    #分
+    Select(driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(10) > div > div:nth-child(3) > select')).select_by_value(start_minute)
+
+    #実終了プルダウン
+    #時間
+    Select(driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(12) > div > div:nth-child(1) > select')).select_by_value(end_hour)
+    #分
+    Select(driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(12) > div > div:nth-child(2) > select')).select_by_value(end_minute)
+
+    #名称
+    driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(18) > input[type=text]').send_keys('バドミントン練習')
+
+    #人数(塾内)
+    driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').clear()
+    driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').send_keys('15')
+
+    #e-mail
+    driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(30) > div > input[type=text]:nth-child(1)').send_keys('t20651sh@sfc.keio.ac.jp')
+
+    #連絡先
+    driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(32) > input[type=text]').send_keys('08014671953')
+
+    #登録する
+    driver.find_element_by_css_selector('#reservation-form > button').click()
+
+    #画面遷移
+
+    #ダイアログ (最終)
+    while not driver.find_element_by_css_selector('body > div:nth-child(20)').is_displayed():
+        print("waiting on display")
+    driver.find_element_by_css_selector('body > div:nth-child(20) > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').click()
+
+    #画面遷移
+    time.sleep(2)
+
+    #完了確認
+    driver.find_element_by_css_selector('body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button').click()
 
 
 def reserve(event):
@@ -105,7 +157,7 @@ def reserve(event):
         m = res_date.month
         d = res_date.day
 
-        while datetime.datetime.now() < datetime.datetime(y, m, d, 3, 20, 00):
+        while datetime.datetime.now() < datetime.datetime(y, m, d, 0, 0, 00):
             time.sleep(1)
 
 
@@ -173,60 +225,13 @@ def reserve(event):
 
         #画面遷移
 
+        #時間選択 アリーナ手前
+        driver.find_element_by_css_selector('#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2) > div > label:nth-child(61)').click()
+        enter(driver, start_hour, start_minute, end_hour, end_minute)
+
         #時間選択 アリーナ奥
         driver.find_element_by_css_selector('#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(2) > td:nth-child(2) > div.time_cell.relative > label:nth-child(61)').click()
-
-        #開始プルダウン
-        #時間
-        Select(driver.find_element_by_css_selector('#reservation_start_h')).select_by_value(start_hour)
-        #分
-        Select(driver.find_element_by_css_selector('#reservation_start_m')).select_by_value(start_minute)
-        #終了プルダウン
-        #時間
-        Select(driver.find_element_by_css_selector('#reservation_end_h')).select_by_value(end_hour)
-        #分
-        Select(driver.find_element_by_css_selector('#reservation_end_m')).select_by_value(end_minute)
-
-        #実開始プルダウン
-        #時間
-        Select(driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(10) > div > div:nth-child(2) > select')).select_by_value(start_hour)
-        #分
-        Select(driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(10) > div > div:nth-child(3) > select')).select_by_value(start_minute)
-
-        #実終了プルダウン
-        #時間
-        Select(driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(12) > div > div:nth-child(1) > select')).select_by_value(end_hour)
-        #分
-        Select(driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(12) > div > div:nth-child(2) > select')).select_by_value(end_minute)
-
-        #名称
-        driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(18) > input[type=text]').send_keys('バドミントン練習')
-
-        #人数(塾内)
-        driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').clear()
-        driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').send_keys('15')
-
-        #e-mail
-        driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(30) > div > input[type=text]:nth-child(1)').send_keys('t20651sh@sfc.keio.ac.jp')
-
-        #連絡先
-        driver.find_element_by_css_selector('#reservation-form > dl > dd:nth-child(32) > input[type=text]').send_keys('08014671953')
-
-        #登録する
-        driver.find_element_by_css_selector('#reservation-form > button').click()
-
-        #画面遷移
-
-        #ダイアログ (最終)
-        while not driver.find_element_by_css_selector('body > div:nth-child(20)').is_displayed():
-            print("waiting on display")
-        driver.find_element_by_css_selector('body > div:nth-child(20) > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').click()
-
-        #画面遷移
-        time.sleep(5)
-
-        #完了確認
-        driver.find_element_by_css_selector('body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button').click()
+        enter(driver, start_hour, start_minute, end_hour, end_minute)
 
     except Exception as e:
         error = str(traceback.format_exc()) +"\ " + str(e)
