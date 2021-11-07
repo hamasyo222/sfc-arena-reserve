@@ -105,7 +105,7 @@ def reserve(event):
         m = res_date.month
         d = res_date.day
 
-        while datetime.datetime.now() < datetime.datetime(y, m, d, 0, 0, 00):
+        while datetime.datetime.now() < datetime.datetime(y, m, d, 3, 20, 00):
             time.sleep(1)
 
 
