@@ -126,10 +126,10 @@ def reserve(event):
         ##keio.jp認証有無(遷移確認)
         ##if "https://auth.keio.jp/idp/profile/SAML2/Redirect/SSO" in driver.current_url:
         #ID
-        driver.find_element_by_css_selector('#username').send_keys('hamasyo222@keio.jp')
+        driver.find_element_by_css_selector('#username').send_keys(os.environ['KEIO_ACCOUNT'])
 
         #パスワード
-        driver.find_element_by_css_selector('#password').send_keys('Konnitiwa196')
+        driver.find_element_by_css_selector('#password').send_keys(os.environ['KEIO_PASSWORD'])
 
         #ログイン
         driver.find_element_by_css_selector('#login > section.form-element-wrapper.login_b > button').click()
