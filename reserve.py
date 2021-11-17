@@ -131,7 +131,7 @@ def reserve(event):
 
 
         #時間選択 アリーナ手前
-        driver.find_element_by_css_selector('#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2) > div > label:nth-child(61)').click()
+        driver.find_element_by_css_selector('#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(2) > td:nth-child(2) > div.time_cell.relative > label:nth-child(61)').click()
         
         #開始プルダウン
         #時間
@@ -185,9 +185,9 @@ def reserve(event):
         #完了確認
         driver.find_element_by_css_selector('body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button').click()
 
-
         #時間選択 アリーナ奥
-        driver.find_element_by_css_selector('#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(2) > td:nth-child(2) > div.time_cell.relative > label:nth-child(61)').click()
+        driver.find_element_by_css_selector('#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2) > div > label:nth-child(61)').click()
+        
         #開始プルダウン
         #時間
         Select(driver.find_element_by_css_selector('#reservation_start_h')).select_by_value(start_hour)
