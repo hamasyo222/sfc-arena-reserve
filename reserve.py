@@ -140,13 +140,14 @@ def reserve(event):
 
         #プルダウン
         Select(driver.find_element(By.CSS_SELECTOR,'#target_room_id')).select_by_value("cd:113")
-        
-        
+              
+        while datetime.datetime.now() < datetime.datetime(y, m, d, 0, 0, 00):
+            time.sleep(1)
+
         #検索
         driver.find_element(By.CSS_SELECTOR,'#calendar-button').click()
 
-        while datetime.datetime.now() < datetime.datetime(y, m, d, 0, 0, 00):
-            time.sleep(1)
+
 
         #画面遷移
 
