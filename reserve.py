@@ -91,7 +91,7 @@ def reserve(event):
     driver.find_element(By.CSS_SELECTOR,'#username').send_keys(os.environ['KEIO_ACCOUNT'])#
 
     #パスワード
-    driver.find_element(By.CSS_SELECTOR,'#password').send_keys(os.environ['#KEIO_PASSWORD'])#
+    driver.find_element(By.CSS_SELECTOR,'#password').send_keys(os.environ['KEIO_PASSWORD'])#
 
     #ログイン
     driver.find_element(By.CSS_SELECTOR,'#login > section.form-element-wrapper.login_b > button').click()
