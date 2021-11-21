@@ -271,44 +271,50 @@ def calender():
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
+    try:
+        creds = None
+        # The file token.pickle stores the user's access and refresh tokens, and is
+        # created automatically when the authorization flow completes for the first
+        # time.
+        if os.path.exists('token.pickle'):
+            with open('token.pickle', 'rb') as token:
+                creds = pickle.load(token)
+        # If there are no (valid) credentials available, let the user log in.
+        if not creds or not creds.valid:
+            if creds and creds.expired and creds.refresh_token:
+                creds.refresh(Request())
+            else:
+                flow = InstalledAppFlow.from_client_secrets_file(
+                    'credentials.json', SCOPES)
+                creds = flow.run_local_server(port=0)
+            # Save the credentials for the next run
+            with open('token.pickle', 'wb') as token:
+                pickle.dump(creds, token)
 
-    creds = None
-    # The file token.pickle stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
-            creds = pickle.load(token)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
+        service = build('calendar', 'v3', credentials=creds)
 
-    service = build('calendar', 'v3', credentials=creds)
+        # Call the Calendar API
+        min = (datetime.datetime.utcnow() + datetime.timedelta(days=14)).isoformat() + 'Z' # 'Z' indicates UTC time
+        max = (datetime.datetime.utcnow() + datetime.timedelta(days=15)).isoformat() + 'Z'
+        print('Getting the 2weeks later event')
+        print(min)
+        print(max)
+        events_result = service.events().list(calendarId='3442e499hjv4j581l1c68n4v2g@group.calendar.google.com', timeMin=min,
+                                            timeMax=max,maxResults=1, singleEvents=True,
+                                            orderBy='startTime').execute()
+        events = events_result.get('items', [])
 
-    # Call the Calendar API
-    min = (datetime.datetime.utcnow() + datetime.timedelta(days=14)).isoformat() + 'Z' # 'Z' indicates UTC time
-    max = (datetime.datetime.utcnow() + datetime.timedelta(days=15)).isoformat() + 'Z'
-    print('Getting the 2weeks later event')
-    print(min)
-    print(max)
-    events_result = service.events().list(calendarId='3442e499hjv4j581l1c68n4v2g@group.calendar.google.com', timeMin=min,
-                                        timeMax=max,maxResults=1, singleEvents=True,
-                                        orderBy='startTime').execute()
-    events = events_result.get('items', [])
-
-    if not events:
-        print('No upcoming events found.')
-    for event in events:
-        reserve(event)
-        
+        if not events:
+            print('No upcoming events found.')
+        for event in events:
+            reserve(event)
+            
+    except Exception as e:
+        error = str(traceback.format_exc()) +"\ " + str(e)
+        if len(error) > 950:
+            errors = [error[i: i+950] for i in range(0, len(error), 950)]
+            for j in range(len(errors)):
+                send_line(errors[j])
 
         #ライン送るで
 def send_line(message):
