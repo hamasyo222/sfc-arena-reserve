@@ -65,6 +65,8 @@ def reserve(event):
         y1 = res_date1.year
         m1 = res_date1.month
         d1 = res_date1.day
+        print(res_date)
+        print(1,res_date1)
 
         while datetime.datetime.now() < datetime.datetime(y1, m1, d1, 23, 59, 00):
             time.sleep(1)
