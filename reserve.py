@@ -65,8 +65,6 @@ def reserve(event):
         y1 = res_date1.year
         m1 = res_date1.month
         d1 = res_date1.day
-        print(res_date)
-        print(1,res_date1)
 
         while datetime.datetime.now() < datetime.datetime(y1, m1, d1, 23, 59, 00):
             time.sleep(1)
@@ -201,7 +199,7 @@ def reserve(event):
         #画面遷移
 
         #ダイアログ (最終)
-        while not driver.find_element(By.CSS_SELECTOR,'body > div:nth-child(20)').is_displayed():
+        while not (driver.find_element(By.CSS_SELECTOR,'body > div:nth-child(20)').is_displayed() or driver.find_element(By.CSS_SELECTOR,'body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable').is_displayed()):
             print("waiting on display")
         driver.find_element(By.CSS_SELECTOR,'body > div:nth-child(20) > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').click()
 
