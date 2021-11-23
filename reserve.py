@@ -155,7 +155,7 @@ def reserve(event):
 
 
         #時間選択 アリーナ奥
-        driver.find_element(By.CSS_SELECTOR,'#main_content > div.container > div.container_body.noscroll > div > div.fix_bottom_right > div > table > tbody > tr:nth-child(2) > td:nth-child(3) > div.time_cell.relative > label:nth-child(61)').click()
+        driver.find_element(By.CSS_SELECTOR,'#main_content > div.container > div.container_body.noscroll > div > div.fix_bottom_right > div > table > tbody > tr:nth-child(2) > td:nth-child(3) > div.time_cell.relative > label:nth-child(4)').click()
         
         #開始プルダウン
         #時間
