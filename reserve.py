@@ -123,6 +123,7 @@ def reserve(event):
         #driver.find_element(By.NAME,'s2[reservation_date_to]').send_keys(day)
 
         #年月
+        driver.find_element(By.CSS_SELECTOR,'#target_date').click()
         driver.find_element(By.CSS_SELECTOR,'#target_date').clear()
         driver.find_element(By.CSS_SELECTOR,'#target_date').send_keys(day)
         while not driver.find_element(By.CSS_SELECTOR,'#ui-datepicker-div').is_displayed():
