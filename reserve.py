@@ -212,7 +212,7 @@ def reserve(event):
 
         #完了確認
         driver.find_element(By.CSS_SELECTOR,'body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button').click()
-        """
+        
         #時間選択 アリーナ手前
         driver.find_element(By.CSS_SELECTOR,'#main_content > div.container > div.container_body.noscroll > div > div.fix_bottom_right > div > table > tbody > tr:nth-child(1) > td:nth-child(3) > div.time_cell.relative > label:nth-child(61)').click()
         
@@ -254,7 +254,7 @@ def reserve(event):
 
         #完了確認
         driver.find_element(By.CSS_SELECTOR,'body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button').click()
-        """
+        
 
     except Exception as e:
         error = str(traceback.format_exc()) +"\ " + str(e)
