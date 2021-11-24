@@ -116,39 +116,42 @@ def reserve(event):
 
 
         #期間始まり
-        #driver.find_element(By.NAME,'s2[reservation_date]').click()
-        #driver.find_element(By.NAME,'s2[reservation_date]').clear()
-        #driver.find_element(By.NAME,'s2[reservation_date]').send_keys(day)
+        driver.find_element(By.NAME,'s2[reservation_date]').click()
+        driver.find_element(By.NAME,'s2[reservation_date]').clear()
+        driver.find_element(By.NAME,'s2[reservation_date]').send_keys(day)
         #期間終わり
-        #driver.find_element(By.NAME,'s2[reservation_date_to]').send_keys(day)
+        driver.find_element(By.NAME,'s2[reservation_date_to]').send_keys(day)
 
         #年月
+        """
         driver.find_element(By.CSS_SELECTOR,'#target_date').click()
         driver.find_element(By.CSS_SELECTOR,'#target_date').clear()
         driver.find_element(By.CSS_SELECTOR,'#target_date').send_keys(day)
         while not driver.find_element(By.CSS_SELECTOR,'#ui-datepicker-div').is_displayed():
             print("waiting on display")
         driver.find_element(By.CSS_SELECTOR,'#ui-datepicker-div > div.ui-datepicker-buttonpane.ui-widget-content > button.ui-datepicker-close.ui-state-default.ui-priority-primary.ui-corner-all').click()
-
+        """
         #施設の種類
-        #driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > div > div > div:nth-child(2) > label:nth-child(3) > input').click()
+        driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > div > div > div:nth-child(2) > label:nth-child(3) > input').click()
 
         #施設の種類
         driver.find_element(By.CSS_SELECTOR,'#target_room_id').click()
 
         #種類
-        #driver.find_element(By.CSS_SELECTOR,'#s2-control_division_id').click()
+        driver.find_element(By.CSS_SELECTOR,'#s2-control_division_id').click()
         #プルダウン選択
-        #Select(driver.find_element(By.CSS_SELECTOR,'#s2-control_division_id')).select_by_value("113")
+        Select(driver.find_element(By.CSS_SELECTOR,'#s2-control_division_id')).select_by_value("113")
 
         #プルダウン
+        """
         Select(driver.find_element(By.CSS_SELECTOR,'#target_room_id')).select_by_value("cd:113")
-                
+                """
         while datetime.datetime.now() < datetime.datetime(y, m, d, 0, 0, 00):
             time.sleep(1)
 
         #検索
-        driver.find_element(By.CSS_SELECTOR,'#calendar-button').click()
+        #driver.find_element(By.CSS_SELECTOR,'#calendar-button').click()
+        driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > button').click()
 
 
 
@@ -156,7 +159,7 @@ def reserve(event):
 
 
         #時間選択 アリーナ奥
-        driver.find_element(By.CSS_SELECTOR,'#main_content > div.container > div.container_body.noscroll > div > div.fix_bottom_right > div > table > tbody > tr:nth-child(2) > td:nth-child(3) > div.time_cell.relative > label:nth-child(4)').click()
+        driver.find_element(By.CSS_SELECTOR,'#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2) > div.time_cell.relative > label:nth-child(4)').click()
         
         #開始プルダウン
         #時間
@@ -200,7 +203,7 @@ def reserve(event):
         #画面遷移
 
         #ダイアログ (最終)
-        while not (driver.find_element(By.CSS_SELECTOR,'body > div:nth-child(20)').is_displayed() or driver.find_element(By.CSS_SELECTOR,'body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable').is_displayed()):
+        while not driver.find_element(By.CSS_SELECTOR,'body > div:nth-child(20)').is_displayed():
             print("waiting on display")
         driver.find_element(By.CSS_SELECTOR,'body > div:nth-child(20) > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').click()
 
