@@ -119,8 +119,10 @@ def reserve(event):
         driver.find_element(By.NAME,'s2[reservation_date]').click()
         driver.find_element(By.NAME,'s2[reservation_date]').clear()
         driver.find_element(By.NAME,'s2[reservation_date]').send_keys(day)
+        driver.find_element(By.NAME,'s2[reservation_date]').send_keys(Keys.ENTER)
         #期間終わり
         driver.find_element(By.NAME,'s2[reservation_date_to]').send_keys(day)
+        driver.find_element(By.NAME,'s2[reservation_date_to]').send_keys(Keys.ENTER)
 
         #年月
         """
