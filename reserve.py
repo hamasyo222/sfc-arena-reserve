@@ -152,7 +152,6 @@ def reserve(event):
             time.sleep(1)
 
         #検索
-        #driver.find_element(By.CSS_SELECTOR,'#calendar-button').click()
         driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > button').click()
 
 
@@ -215,6 +214,7 @@ def reserve(event):
         #完了確認
         driver.find_element(By.CSS_SELECTOR,'body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button').click()
         
+        """
         #時間選択 アリーナ手前
         driver.find_element(By.CSS_SELECTOR,'#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2) > div.time_cell.relative > label:nth-child(4)').click()
         
@@ -256,7 +256,7 @@ def reserve(event):
 
         #完了確認
         driver.find_element(By.CSS_SELECTOR,'body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button').click()
-        
+        """
 
     except Exception as e:
         error = str(traceback.format_exc()) +"\ " + str(e)
@@ -267,13 +267,6 @@ def reserve(event):
     else:
         message = day + " " + start_hour + ":" + start_minute + "〜" + end_hour + ":" + end_minute + "予約完了"
         send_line(message)
-
-
-    #main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(1)行 > td:nth-child(2) > div.time_cell.relative > label:nth-child(4)
-    #main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(2) > td:nth-child(2) > div.time_cell.relative > label:nth-child(4)
-    #main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(2) > td:nth-child(2) > div.time_cell.relative > label:nth-child(3)時間
-
-
 
 def calender():
     """Shows basic usage of the Google Calendar API.
