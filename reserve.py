@@ -82,11 +82,7 @@ def reserve(event):
         #施設予約システムにアクセス
         driver.get("https://eqres01.adst.keio.ac.jp/")
 
-        ##1秒待つ
-        ##time.sleep(1)
-
-        ##keio.jp認証有無(遷移確認)
-        ##if "https://auth.keio.jp/idp/profile/SAML2/Redirect/SSO" in driver.current_url:
+        #keio.jp認証
         #ID
         driver.find_element(By.CSS_SELECTOR,'#username').send_keys(os.environ['KEIO_ACCOUNT'])#
 
@@ -96,11 +92,6 @@ def reserve(event):
         #ログイン
         driver.find_element(By.CSS_SELECTOR,'#login > section.form-element-wrapper.login_b > button').click()
 
-        ##1秒待つ
-        ##time.sleep(1)
-
-        ##予約キー有無
-        ##if driver.current_url == "https://eqres01.adst.keio.ac.jp/reservaion-key":
         #予約キー
         driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body > form > div > dl > dd > input[type=text]').send_keys('0405241')
 
@@ -109,30 +100,16 @@ def reserve(event):
 
         #画面遷移
 
-        #今日の日付取得(操作前定義で行なっているためスキップ)
-        #today = datetime.date.today()
-        #two_weeks_lator = today + datetime.timedelta(days=14)
-        #two_weeks_lator = two_weeks_lator.strftime("%Y/%m/%d")
-
-
         #期間始まり
         driver.find_element(By.NAME,'s2[reservation_date]').click()
         driver.find_element(By.NAME,'s2[reservation_date]').clear()
         driver.find_element(By.NAME,'s2[reservation_date]').send_keys(day)
         driver.find_element(By.NAME,'s2[reservation_date]').send_keys(Keys.ENTER)
+
         #期間終わり
         driver.find_element(By.NAME,'s2[reservation_date_to]').send_keys(day)
         driver.find_element(By.NAME,'s2[reservation_date_to]').send_keys(Keys.ENTER)
 
-        #年月
-        """
-        driver.find_element(By.CSS_SELECTOR,'#target_date').click()
-        driver.find_element(By.CSS_SELECTOR,'#target_date').clear()
-        driver.find_element(By.CSS_SELECTOR,'#target_date').send_keys(day)
-        while not driver.find_element(By.CSS_SELECTOR,'#ui-datepicker-div').is_displayed():
-            print("waiting on display")
-        driver.find_element(By.CSS_SELECTOR,'#ui-datepicker-div > div.ui-datepicker-buttonpane.ui-widget-content > button.ui-datepicker-close.ui-state-default.ui-priority-primary.ui-corner-all').click()
-        """
         #施設の種類
         driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > div > div > div:nth-child(2) > label:nth-child(3) > input').click()
 
@@ -145,19 +122,13 @@ def reserve(event):
         Select(driver.find_element(By.CSS_SELECTOR,'#s2-control_division_id')).select_by_value("113")
 
         #プルダウン
-        """
-        Select(driver.find_element(By.CSS_SELECTOR,'#target_room_id')).select_by_value("cd:113")
-                """
         while datetime.datetime.now() < datetime.datetime(y, m, d, 0, 0, 00):
             time.sleep(1)
 
         #検索
         driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > button').click()
 
-
-
         #画面遷移
-
 
         #時間選択 アリーナ奥
         driver.find_element(By.CSS_SELECTOR,'#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(2) > td:nth-child(2) > div.time_cell.relative > label:nth-child(4)').click()
@@ -213,7 +184,7 @@ def reserve(event):
 
         #完了確認
         driver.find_element(By.CSS_SELECTOR,'body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button').click()
-        
+
         """
         #時間選択 アリーナ手前
         driver.find_element(By.CSS_SELECTOR,'#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2) > div.time_cell.relative > label:nth-child(4)').click()
