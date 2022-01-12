@@ -185,6 +185,7 @@ def reserve(event):
         #完了確認
         driver.find_element(By.CSS_SELECTOR,'body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button').click()
 
+        #アリーナ手前の予約
         """
         #時間選択 アリーナ手前
         driver.find_element(By.CSS_SELECTOR,'#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2) > div.time_cell.relative > label:nth-child(4)').click()
@@ -265,6 +266,7 @@ def calender():
     service = build('calendar', 'v3', credentials=creds)
 
     # Call the Calendar API
+    #予約の判別
     min = (datetime.datetime.utcnow() + datetime.timedelta(days=14)).isoformat() + 'Z' # 'Z' indicates UTC time
     max = (datetime.datetime.utcnow() + datetime.timedelta(days=15)).isoformat() + 'Z'
     print('Getting the 2weeks later event')
@@ -276,13 +278,31 @@ def calender():
     events = events_result.get('items', [])
 
     if not events:
-        print('No upcoming events found.')
+        print("予約なし")
     for event in events:
         reserve(event)
 
+    #参加確認の判別
+    min = (datetime.datetime.utcnow()).isoformat() + 'Z' # 'Z' indicates UTC time
+    max = (datetime.datetime.utcnow() + datetime.timedelta(days=1)).isoformat() + 'Z'
+    print('Getting the 1Days later event')
+    print(min)
+    print(max)
+    events_result = service.events().list(calendarId='3442e499hjv4j581l1c68n4v2g@group.calendar.google.com', timeMin=min,
+                                        timeMax=max,maxResults=1, singleEvents=True,
+                                        orderBy='startTime').execute()
+    events = events_result.get('items', [])
+
+    if not events:
+        print("予約なし")
+    for event in events:
+        attend_line(event)
+
+    
+
  
 
-        #ライン送るで
+#幹部ライン送る
 def send_line(message):
     url = "https://notify-api.line.me/api/notify"
     access_token = os.environ['LINE_NOTIFY_TOKEN']#heroku
@@ -300,6 +320,32 @@ def send_line(message):
         data=data,
     )
 
+#参加確認ライン送る
+def attend_line(event):
+    start_str = event['start'].get('dateTime', event['start'].get('date'))
+    end_str = event['end'].get('dateTime', event['end'].get('date'))
+    start = datetime.datetime.strptime(start_str, '%Y-%m-%dT%H:%M:%S+09:00')
+    end = datetime.datetime.strptime(end_str, '%Y-%m-%dT%H:%M:%S+09:00')
+    day = start.strftime("%Y/%m/%d")
+    start_hour = f'{start.hour:02}'
+    start_minute = f'{start.minute:02}'
+    end_hour = f'{end.hour:02}'
+    end_minute = f'{end.minute:02}'
+    url = "https://notify-api.line.me/api/notify"
+    access_token = os.environ['Twinkles_TOKEN']#heroku
+    #access_token = "3zeIgq607vBA4zkzUDxoBac3oxe4puqOCg7CKhuaczr"#ローカル
+    headers = {'Authorization': 'Bearer ' + access_token}
+    
+    message = day + " " + start_hour + ":" + start_minute + "〜" + end_hour + ":" + end_minute + "\n" + "参加者スタンプお願いします！"
+    data = {
+        "message": message
+    }
+
+    requests.post(
+        "https://notify-api.line.me/api/notify",
+        headers=headers,
+        data=data,
+    )
 
 
 if __name__ == '__main__':
