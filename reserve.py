@@ -283,8 +283,8 @@ def calender():
         reserve(event)
 
     #参加確認の判別
-    min = (datetime.datetime.utcnow()).isoformat() + 'Z' # 'Z' indicates UTC time
-    max = (datetime.datetime.utcnow() + datetime.timedelta(days=1)).isoformat() + 'Z'
+    min = (datetime.datetime.utcnow() + datetime.timedelta(days=2)).isoformat() + 'Z' # 'Z' indicates UTC time
+    max = (datetime.datetime.utcnow() + datetime.timedelta(days=3)).isoformat() + 'Z'
     print('Getting the 1Days later event')
     print(min)
     print(max)
@@ -336,7 +336,7 @@ def attend_line(event):
     #access_token = "3zeIgq607vBA4zkzUDxoBac3oxe4puqOCg7CKhuaczr"#ローカル
     headers = {'Authorization': 'Bearer ' + access_token}
     
-    message = day + " " + start_hour + ":" + start_minute + "〜" + end_hour + ":" + end_minute + "\n" + "参加者スタンプお願いします！"
+    message = "\n" + "日付：" + day + "\n" + "時間：" + start_hour + ":" + start_minute + "-" + end_hour + ":" + end_minute + "\n" + "場所：" + event['location'] + "\n" + "内容：" + event['summary'] + "\n" + "参加者はこのトークにスタンプお願いします！"
     data = {
         "message": message
     }
