@@ -305,8 +305,7 @@ def calender():
 #幹部ライン送る
 def send_line(message):
     url = "https://notify-api.line.me/api/notify"
-    access_token = os.environ['LINE_NOTIFY_TOKEN']#heroku
-    #access_token = "3zeIgq607vBA4zkzUDxoBac3oxe4puqOCg7CKhuaczr"#ローカル
+    access_token = os.environ['LINE_NOTIFY_TOKEN']
     headers = {'Authorization': 'Bearer ' + access_token}
     
     message = message
@@ -332,11 +331,14 @@ def attend_line(event):
     end_hour = f'{end.hour:02}'
     end_minute = f'{end.minute:02}'
     url = "https://notify-api.line.me/api/notify"
-    access_token = os.environ['Twinkles_TOKEN']#heroku
-    #access_token = "3zeIgq607vBA4zkzUDxoBac3oxe4puqOCg7CKhuaczr"#ローカル
+    access_token = os.environ['Twinkles_TOKEN']
     headers = {'Authorization': 'Bearer ' + access_token}
+    try:
+        location = event['location']
+    except:
+        location = ""
     
-    message = "\n" + "日付：" + day + "\n" + "時間：" + start_hour + ":" + start_minute + "-" + end_hour + ":" + end_minute + "\n" + "場所：" + event['location'] + "\n" + "内容：" + event['summary'] + "\n" + "参加者はこのトークにスタンプお願いします！"
+    message = "\n" + "日付：" + day + "\n" + "時間：" + start_hour + ":" + start_minute + "-" + end_hour + ":" + end_minute + "\n" + "場所：" + location + "\n" + "内容：" + event['summary'] + "\n" + "参加者はこのトークにスタンプお願いします！"
     data = {
         "message": message
     }
