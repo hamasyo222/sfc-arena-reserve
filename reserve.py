@@ -309,14 +309,13 @@ def calender():
     print(min)
     print(max)
     events_result = service.events().list(calendarId='3442e499hjv4j581l1c68n4v2g@group.calendar.google.com', timeMin=min,
-                                        timeMax=max,maxResults=1, singleEvents=True,
+                                        timeMax=max,maxResults=3, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
 
     if not events:
         print("予約なし")
     else:
-        print(len(events))
         for i in range(len(events)):
             event = events[i]
             if i == 0:
