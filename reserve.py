@@ -122,8 +122,8 @@ def reserve(start, day):
         Select(driver.find_element(By.CSS_SELECTOR,'#s2-control_division_id')).select_by_value("113")
 
         #プルダウン
-        while datetime.datetime.now() < datetime.datetime(y, m, d, 0, 0, 00):
-            time.sleep(1)
+        #while datetime.datetime.now() < datetime.datetime(y, m, d, 0, 0, 00):
+            #time.sleep(1)
 
         #検索
         driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > button').click()
@@ -215,6 +215,7 @@ def arena_back(driver, start_hour, start_minute, end_hour, end_minute):
 
     #完了確認
     driver.find_element(By.CSS_SELECTOR,'body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button').click()
+
 
 #アリーナ手前の予約
 def arena_before(driver, start_hour, start_minute, end_hour, end_minute):
