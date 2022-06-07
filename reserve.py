@@ -139,15 +139,15 @@ def reserve(start, day):
                 send_line(errors[j])
  
 
-def select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver):
+def select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n):
     try:
         if event['location'] == "SFCアリーナ奥":
-            arena_back(driver, start_hour, start_minute, end_hour, end_minute)
+            n = arena_back(driver, start_hour, start_minute, end_hour, end_minute, n)
         elif event['location'] == "SFCアリーナ手前":
-            arena_before(driver, start_hour, start_minute, end_hour, end_minute)
+            n = arena_before(driver, start_hour, start_minute, end_hour, end_minute, n)
         else:
-            arena_back(driver, start_hour, start_minute, end_hour, end_minute)
-            arena_before(driver, start_hour, start_minute, end_hour, end_minute)
+            n = arena_back(driver, start_hour, start_minute, end_hour, end_minute, n)
+            n = arena_before(driver, start_hour, start_minute, end_hour, end_minute, n)
             
     except Exception as e:
         error = str(traceback.format_exc()) +"\ " + str(e)
@@ -158,10 +158,11 @@ def select_place(event, day, start_hour, start_minute, end_hour, end_minute, dri
     else:
         message = day + " " + start_hour + ":" + start_minute + "〜" + end_hour + ":" + end_minute + event['location'] + "予約完了"
         send_line(message)
+        return n
 
 
 #時間選択 アリーナ奥
-def arena_back(driver, start_hour, start_minute, end_hour, end_minute):
+def arena_back(driver, start_hour, start_minute, end_hour, end_minute, n):
     driver.find_element(By.CSS_SELECTOR,'#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(2) > td:nth-child(2) > div.time_cell.relative > label:nth-child(66)').click()
     #開始プルダウン
     #時間
@@ -186,18 +187,8 @@ def arena_back(driver, start_hour, start_minute, end_hour, end_minute):
     #分
     Select(driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(12) > div > div:nth-child(2) > select')).select_by_value(end_minute)
 
-    #名称
-    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(18) > input[type=text]').send_keys('バドミントン練習')
-
-    #人数(塾内)
-    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').clear()
-    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').send_keys('15')
-
-    #e-mail
-    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(30) > div > input[type=text]:nth-child(1)').send_keys('t20651sh@sfc.keio.ac.jp')
-
-    #連絡先
-    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(32) > input[type=text]').send_keys('08014671953')
+    if n == 0:
+        detail(driver)
 
     #登録する
     driver.find_element(By.CSS_SELECTOR,'#reservation-form > button').click()
@@ -214,9 +205,11 @@ def arena_back(driver, start_hour, start_minute, end_hour, end_minute):
 
     #完了確認
     driver.find_element(By.CSS_SELECTOR,'body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button').click()
+    n += 1
+    return n
 
 #アリーナ手前の予約
-def arena_before(driver, start_hour, start_minute, end_hour, end_minute):
+def arena_before(driver, start_hour, start_minute, end_hour, end_minute, n):
     #時間選択 アリーナ手前
     driver.find_element(By.CSS_SELECTOR,'#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2) > div.time_cell.relative > label:nth-child(66)').click()
     
@@ -243,6 +236,9 @@ def arena_before(driver, start_hour, start_minute, end_hour, end_minute):
     #分
     Select(driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(12) > div > div:nth-child(2) > select')).select_by_value(end_minute)
 
+    if n == 0:
+        detail(driver)
+
     #登録する
     driver.find_element(By.CSS_SELECTOR,'#reservation-form > button').click()
 
@@ -258,6 +254,23 @@ def arena_before(driver, start_hour, start_minute, end_hour, end_minute):
 
     #完了確認
     driver.find_element(By.CSS_SELECTOR,'body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button').click()
+    
+    n += 1
+    return n
+
+def detail(driver):
+    #名称
+    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(18) > input[type=text]').send_keys('バドミントン練習')
+
+    #人数(塾内)
+    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').clear()
+    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').send_keys('15')
+
+    #e-mail
+    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(30) > div > input[type=text]:nth-child(1)').send_keys('t20651sh@sfc.keio.ac.jp')
+
+    #連絡先
+    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(32) > input[type=text]').send_keys('08014671953')
 
 
 def calender():
@@ -300,15 +313,16 @@ def calender():
     if not events:
         print("予約なし")
     else:
+        n = 0
         for i in range(len(events)):
             event = events[i]
             if i == 0:
                 start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
                 driver = reserve(start,day)
-                select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver)
+                n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
             else:
                 start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
-                select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver)
+                n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
 
             
     #参加確認の判別
