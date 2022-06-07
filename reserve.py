@@ -122,8 +122,8 @@ def reserve(start, day):
         Select(driver.find_element(By.CSS_SELECTOR,'#s2-control_division_id')).select_by_value("113")
 
         #プルダウン
-        #while datetime.datetime.now() < datetime.datetime(y, m, d, 0, 0, 00):
-            #time.sleep(1)
+        while datetime.datetime.now() < datetime.datetime(y, m, d, 0, 0, 00):
+            time.sleep(1)
 
         #検索
         driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > button').click()
@@ -302,7 +302,7 @@ def calender():
 
     if not events:
         print("予約なし")
-    for i in range(events):
+    for i in range(len(events)):
         event = events[i]
         if i == 0:
             start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
