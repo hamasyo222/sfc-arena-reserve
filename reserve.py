@@ -302,15 +302,16 @@ def calender():
 
     if not events:
         print("予約なし")
-    for i in range(len(events)):
-        event = events[i]
-        if i == 0:
-            start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
-            driver = reserve(start,day)
-            select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver)
-        else:
-            start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
-            select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver)
+    else:
+        for i in range(len(events)):
+            event = events[i]
+            if i == 0:
+                start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
+                driver = reserve(start,day)
+                select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver)
+            else:
+                start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
+                select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver)
 
             
     #参加確認の判別
