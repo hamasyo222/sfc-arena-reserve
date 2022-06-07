@@ -55,7 +55,7 @@ def reserve(start, day):
         options.add_argument('--proxy-server="direct://"');
         options.add_argument('--proxy-bypass-list=*');
         options.add_argument('--start-maximized');
-        #options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
+        options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
 
         #0:00まで待機
         res_date = start - datetime.timedelta(days=14)
@@ -210,7 +210,7 @@ def arena_back(driver, start_hour, start_minute, end_hour, end_minute):
     driver.find_element(By.CSS_SELECTOR,'body > div:nth-child(20) > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').click()
 
     #画面遷移
-    time.sleep(2)
+    time.sleep(3)
 
     #完了確認
     driver.find_element(By.CSS_SELECTOR,'body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button').click()
@@ -254,7 +254,7 @@ def arena_before(driver, start_hour, start_minute, end_hour, end_minute):
     driver.find_element(By.CSS_SELECTOR,'body > div:nth-child(20) > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').click()
 
     #画面遷移
-    time.sleep(2)
+    time.sleep(3)
 
     #完了確認
     driver.find_element(By.CSS_SELECTOR,'body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button').click()
