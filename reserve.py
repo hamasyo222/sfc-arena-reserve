@@ -316,6 +316,7 @@ def calender():
     if not events:
         print("予約なし")
     else:
+        print(len(events))
         for i in range(len(events)):
             event = events[i]
             if i == 0:
