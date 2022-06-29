@@ -264,13 +264,13 @@ def detail(driver):
 
     #人数(塾内)
     driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').clear()
-    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').send_keys('15')
+    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').send_keys('40')
 
     #e-mail
-    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(30) > div > input[type=text]:nth-child(1)').send_keys('t20651sh@sfc.keio.ac.jp')
+    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(30) > div > input[type=text]:nth-child(1)').send_keys(os.environ['E_MAIL'])
 
     #連絡先
-    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(32) > input[type=text]').send_keys('08014671953')
+    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(32) > input[type=text]').send_keys(os.environ['TELL'])
 
 
 def calender():
@@ -336,7 +336,6 @@ def calender():
                                         timeMax=max,maxResults=1, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-
     if not events:
         print("予約なし")
     for event in events:
@@ -387,7 +386,6 @@ def attend_line(event):
     data = {
         "message": message
     }
-
     requests.post(
         "https://notify-api.line.me/api/notify",
         headers=headers,

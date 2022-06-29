@@ -55,7 +55,7 @@ def reserve(start, day):
         options.add_argument('--proxy-server="direct://"');
         options.add_argument('--proxy-bypass-list=*');
         options.add_argument('--start-maximized');
-        options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
+        #options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
 
         #0:00まで待機
         res_date = start - datetime.timedelta(days=14)
@@ -73,8 +73,8 @@ def reserve(start, day):
         #
         # Chromeドライバーの起動
         #
-        DRIVER_PATH = '/app/.chromedriver/bin/chromedriver' #heroku
-        #DRIVER_PATH = '/Users/hamasyo/Selenium/chromedriver' #ローカル
+        #DRIVER_PATH = '/app/.chromedriver/bin/chromedriver' #heroku
+        DRIVER_PATH = '/Users/hamasyo/Selenium/chromedriver' #ローカル
         chrome_sevice = fs.Service(DRIVER_PATH)
         driver = webdriver.Chrome(service=chrome_sevice, options=options)
         driver.implicitly_wait(20)
@@ -84,10 +84,10 @@ def reserve(start, day):
 
         #keio.jp認証
         #ID
-        driver.find_element(By.CSS_SELECTOR,'#username').send_keys(os.environ['KEIO_ACCOUNT'])#
+        driver.find_element(By.CSS_SELECTOR,'#username').send_keys("shimaken524@keio.jp")#
 
         #パスワード
-        driver.find_element(By.CSS_SELECTOR,'#password').send_keys(os.environ['KEIO_PASSWORD'])#
+        driver.find_element(By.CSS_SELECTOR,'#password').send_keys("ks0524ks")#
 
         #ログイン
         driver.find_element(By.CSS_SELECTOR,'#login > section.form-element-wrapper.login_b > button').click()
@@ -336,7 +336,6 @@ def calender():
                                         timeMax=max,maxResults=1, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-
     if not events:
         print("予約なし")
     for event in events:
@@ -348,7 +347,7 @@ def calender():
 #幹部ライン送る
 def send_line(message):
     url = "https://notify-api.line.me/api/notify"
-    access_token = os.environ['LINE_NOTIFY_TOKEN']
+    access_token = "1M36qrYaziRpapUJXjlPZT0sGL0NX9fnjSlYZqVBph2"
     headers = {'Authorization': 'Bearer ' + access_token}
     
     message = message
@@ -387,7 +386,6 @@ def attend_line(event):
     data = {
         "message": message
     }
-
     requests.post(
         "https://notify-api.line.me/api/notify",
         headers=headers,
