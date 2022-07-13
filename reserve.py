@@ -59,15 +59,11 @@ def reserve(start, day):
 
         #0:00まで待機
         res_date = start - datetime.timedelta(days=14)
-        res_date1 = start - datetime.timedelta(days=15)
         y = res_date.year
         m = res_date.month
         d = res_date.day
-        y1 = res_date1.year
-        m1 = res_date1.month
-        d1 = res_date1.day
 
-        while datetime.datetime.now() < datetime.datetime(y1, m1, d1, 23, 59, 00):
+        while datetime.datetime.now() < datetime.datetime(y, m, d, 00, 00, 00):
             time.sleep(1)
 
         #
