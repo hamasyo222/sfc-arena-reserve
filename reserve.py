@@ -295,6 +295,7 @@ def calender():
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
+    print("2")
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
@@ -307,6 +308,7 @@ def calender():
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
     service = build('calendar', 'v3', credentials=creds)
+    print("3")
 
     # Call the Calendar API
     #予約の判別
@@ -404,6 +406,7 @@ def attend_line(event):
 
 if __name__ == '__main__':
     #try:
+    print("1")
     calender()
     """
     except Exception as e:
