@@ -28,7 +28,7 @@ jobs:
           pip install google_auth_oauthlib
           pip install google-api-python-client
           pip install google-auth-httplib2
-          pip install chromedriver-binary==94.*
+          pip install chromedriver-binary-auto
           
       - name: Install Chrome
         run: |
