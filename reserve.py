@@ -80,9 +80,11 @@ def reserve(start, day):
         # Chromeドライバーの起動
         #
         print("ドライバー起動")
-        DRIVER_PATH = '/app/.chromedriver/bin/chromedriver' #heroku
+        #DRIVER_PATH = '/app/.chromedriver/bin/chromedriver' #heroku
         #DRIVER_PATH = '/Users/hamasyo/Selenium/chromedriver' #ローカル
-        chrome_sevice = fs.Service(DRIVER_PATH)
+        driver = GetChromeDriver()
+        driver.install()
+        #chrome_sevice = fs.Service(DRIVER_PATH)
         driver = webdriver.Chrome(service=chrome_sevice, options=options)
         driver.implicitly_wait(20)
 
