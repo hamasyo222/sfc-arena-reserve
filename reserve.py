@@ -328,6 +328,7 @@ def calender():
     events = events_result.get('items', [])
 
     #目的以外の日を排除
+    """
     j = 0
     print(datetime.datetime.utcnow())
     target_datetime = datetime.datetime.utcnow() + datetime.timedelta(days=15) #テスト時、9:00を超えていて同日予約は14に。
@@ -341,6 +342,7 @@ def calender():
             events.pop(j)
         else:
             j += 1
+            """
 
 
     if not events:
