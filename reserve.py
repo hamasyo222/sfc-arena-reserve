@@ -66,7 +66,7 @@ def reserve(start, day):
         options.add_argument('--proxy-server="direct://"');
         options.add_argument('--proxy-bypass-list=*');
         options.add_argument('--start-maximized');
-        options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
+        #options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
         
         
 
@@ -154,25 +154,25 @@ def reserve(start, day):
  
 
 def select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n):
-    try:
-        if event['location'] == "SFCアリーナ奥":
-            n = arena_back(driver, start_hour, start_minute, end_hour, end_minute, n)
-        elif event['location'] == "SFCアリーナ手前":
-            n = arena_before(driver, start_hour, start_minute, end_hour, end_minute, n)
-        else:
-            n = arena_back(driver, start_hour, start_minute, end_hour, end_minute, n)
-            n = arena_before(driver, start_hour, start_minute, end_hour, end_minute, n)
+    #try:
+    if event['location'] == "SFCアリーナ奥":
+        n = arena_back(driver, start_hour, start_minute, end_hour, end_minute, n)
+    elif event['location'] == "SFCアリーナ手前":
+        n = arena_before(driver, start_hour, start_minute, end_hour, end_minute, n)
+    else:
+        n = arena_back(driver, start_hour, start_minute, end_hour, end_minute, n)
+        n = arena_before(driver, start_hour, start_minute, end_hour, end_minute, n)
             
-    except Exception as e:
+    """except Exception as e:
         error = str(traceback.format_exc()) +"\ " + str(e)
         if len(error) > 950:
             errors = [error[i: i+950] for i in range(0, len(error), 950)]
             for j in range(len(errors)):
-                send_line(errors[j])
-    else:
-        message = day + " " + start_hour + ":" + start_minute + "〜" + end_hour + ":" + end_minute + event['location'] + "予約完了"
-        send_line(message)
-        return n
+                send_line(errors[j])"""
+    #else:
+    message = day + " " + start_hour + ":" + start_minute + "〜" + end_hour + ":" + end_minute + event['location'] + "予約完了"
+    send_line(message)
+    return n
 
 
 #時間選択 アリーナ奥
@@ -315,8 +315,8 @@ def calender():
 
     # Call the Calendar API
     #予約の判別
-    min = (datetime.datetime.utcnow() + datetime.timedelta(days=13)).isoformat() + 'Z' # 'Z' indicates UTC time
-    max = (datetime.datetime.utcnow() + datetime.timedelta(days=14)).isoformat() + 'Z'
+    min = (datetime.datetime.utcnow() + datetime.timedelta(days=14)).isoformat() + 'Z' # 'Z' indicates UTC time
+    max = (datetime.datetime.utcnow() + datetime.timedelta(days=15)).isoformat() + 'Z'
     print('Getting the 2weeks later event')
     print(min)
     print(max)
