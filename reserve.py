@@ -24,8 +24,10 @@ import sys
 from get_chrome_driver import GetChromeDriver
 
 
-keio_id = "y.taiga0726@keio.jp"
-keio_pass = "taiga1315"
+#keio_id = "y.taiga0726@keio.jp"
+#keio_pass = "taiga1315"
+keio_id = "hamasyo222@keio.jp"
+keio_pass = "Konnitiwa196"
 tell = "08024411260"
 line_token = "6IvbcRQKexPEGwcvPg58NwmCGUPrTjLyPM9JtIc8qp3"
 twin_token = "Gebrg0EUKBHWcGZt2qzwpEhabPWjywdHQqJbcwixXHk"
@@ -318,7 +320,7 @@ def calender():
     print(min)
     print(max)
     events_result = service.events().list(calendarId='3442e499hjv4j581l1c68n4v2g@group.calendar.google.com', timeMin=min,
-                                        timeMax=max,maxResults=3, singleEvents=True,
+                                        timeMax=max,maxResults=10, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
 
