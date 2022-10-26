@@ -315,15 +315,28 @@ def calender():
 
     # Call the Calendar API
     #予約の判別
-    min = (datetime.datetime.utcnow() + datetime.timedelta(days=14)).isoformat() + 'Z' # 'Z' indicates UTC time
+    min = (datetime.datetime.utcnow() + datetime.timedelta(days=13)).isoformat() + 'Z' # 'Z' indicates UTC time
     max = (datetime.datetime.utcnow() + datetime.timedelta(days=15)).isoformat() + 'Z'
     print('Getting the 2weeks later event')
     print(min)
     print(max)
     events_result = service.events().list(calendarId='3442e499hjv4j581l1c68n4v2g@group.calendar.google.com', timeMin=min,
-                                        timeMax=max,maxResults=10, singleEvents=True,
+                                        timeMax=max,maxResults=9999, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
+
+    #目的以外の日を排除
+    j = 0
+    target_day = datetime.date.today() + datetime.timedelta(days=14)
+    t_day = target_day.strftime('%Y/%m/%d')
+    for i in range(len(events)):
+        event = events[j]
+        start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
+        if day != t_day:
+            events.pop(j)
+        else:
+            j += 1
+
 
     if not events:
         print("予約なし")
