@@ -24,7 +24,6 @@ import sys
 from get_chrome_driver import GetChromeDriver
 
 
-
 keio_id = "y.taiga0726@keio.jp"
 keio_pass = "taiga1315"
 tell = "08024411260"
@@ -88,9 +87,6 @@ def reserve(start, day):
         #chrome_sevice = fs.Service(DRIVER_PATH)
         driver = webdriver.Chrome(options=options)
         #driver = webdriver.Chrome(service=chrome_sevice, options=options)
-        driver.implicitly_wait(20)
-
-
         driver.implicitly_wait(20)
 
         #施設予約システムにアクセス
@@ -298,6 +294,7 @@ def calender():
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
+    print("3")
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
@@ -309,7 +306,7 @@ def calender():
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
-
+    print("4")
     service = build('calendar', 'v3', credentials=creds)
 
     # Call the Calendar API
@@ -410,11 +407,13 @@ def attend_line(event):
 """
 
 if __name__ == '__main__':
-    try:
+    #try:
+        print("1")
         calender()
-    except Exception as e:
+        print("2")
+    """except Exception as e:
         error = str(traceback.format_exc()) +"\ " + str(e)
         if len(error) > 950:
             errors = [error[i: i+950] for i in range(0, len(error), 950)]
             for j in range(len(errors)):
-                send_line(errors[j])
+                send_line(errors[j])"""
