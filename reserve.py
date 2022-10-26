@@ -408,10 +408,11 @@ def attend_line(event):
 
 if __name__ == '__main__':
     #try:
-        print("1")
-        calender()
-        print("2")
-    """except Exception as e:
+    print("1")
+    calender()
+    print("2")
+    """
+    except Exception as e:
         error = str(traceback.format_exc()) +"\ " + str(e)
         if len(error) > 950:
             errors = [error[i: i+950] for i in range(0, len(error), 950)]
