@@ -317,6 +317,8 @@ def calender():
     #予約の判別
     min = (datetime.datetime.utcnow() + datetime.timedelta(days=13)).isoformat() + 'Z' # 'Z' indicates UTC time
     max = (datetime.datetime.utcnow() + datetime.timedelta(days=15)).isoformat() + 'Z'
+    #14-15以降にするとなぜか処理できない。+13以下が必要。(20221017)
+
     print('Getting the 2weeks later event')
     print(min)
     print(max)
@@ -327,12 +329,15 @@ def calender():
 
     #目的以外の日を排除
     j = 0
-    target_day = datetime.date.today() + datetime.timedelta(days=14)
-    t_day = target_day.strftime('%Y/%m/%d')
+    print(datetime.datetime.utcnow())
+    target_datetime = datetime.datetime.utcnow() + datetime.timedelta(days=15) #テスト時、9:00を超えていて同日予約は14に。
+    target_day = target_datetime.date()
+    t_day_str = target_day.strftime('%Y/%m/%d')
+    print(t_day_str)
     for i in range(len(events)):
         event = events[j]
         start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
-        if day != t_day:
+        if day != t_day_str:
             events.pop(j)
         else:
             j += 1
