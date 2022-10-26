@@ -317,7 +317,6 @@ def calender():
     #予約の判別
     min = (datetime.datetime.utcnow() + datetime.timedelta(days=14)).isoformat() + 'Z' # 'Z' indicates UTC time
     max = (datetime.datetime.utcnow() + datetime.timedelta(days=15)).isoformat() + 'Z'
-    #14-15以降にするとなぜか処理できない。+13以下が必要。(20221017)
 
     print('Getting the 2weeks later event')
     print(min)
