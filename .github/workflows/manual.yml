@@ -10,10 +10,13 @@ jobs:
     # 実行する処理＆コマンド指定
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python 3.9
+      - name: Set up Python 3.x
         uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          # Semantic version range syntax or exact version of a Python version
+          python-version: '3.x'
+          # Optional - x64 or x86 architecture, defaults to x64
+          architecture: 'x64'
           
       - name: Install dependencies
         run: |
