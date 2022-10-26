@@ -22,7 +22,6 @@ from selenium.webdriver.chrome import service as fs
 import traceback
 import sys
 from get_chrome_driver import GetChromeDriver
-import chromedriver_binary
 
 
 
@@ -82,10 +81,15 @@ def reserve(start, day):
         #
         print("ドライバー起動")
 
+        #DRIVER_PATH = '/app/.chromedriver/bin/chromedriver' #heroku
+        #DRIVER_PATH = '/Users/hamasyo/Selenium/chromedriver' #ローカル
         get_driver = GetChromeDriver()
         get_driver.install()
-
+        #chrome_sevice = fs.Service(DRIVER_PATH)
         driver = webdriver.Chrome(options=options)
+        #driver = webdriver.Chrome(service=chrome_sevice, options=options)
+        driver.implicitly_wait(20)
+
 
         driver.implicitly_wait(20)
 
