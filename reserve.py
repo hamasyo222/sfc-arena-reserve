@@ -28,6 +28,7 @@ keio_id = "y.taiga0726@keio.jp"
 keio_pass = "taiga1315"
 tell = "08024411260"
 line_token = "6IvbcRQKexPEGwcvPg58NwmCGUPrTjLyPM9JtIc8qp3"
+twin_token = "Gebrg0EUKBHWcGZt2qzwpEhabPWjywdHQqJbcwixXHk"
 
 
 
@@ -294,7 +295,6 @@ def calender():
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
-    print("3")
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
@@ -306,7 +306,6 @@ def calender():
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
-    print("4")
     service = build('calendar', 'v3', credentials=creds)
 
     # Call the Calendar API
@@ -329,18 +328,15 @@ def calender():
             event = events[i]
             if i == 0:
                 start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
-                print("1")
                 driver = reserve(start,day)
-                print("2")
                 n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
-                print("3")
             else:
                 start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
                 n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
 
             
     #参加確認の判別
-    """
+    
     min = (datetime.datetime.utcnow() + datetime.timedelta(days=2)).isoformat() + 'Z' # 'Z' indicates UTC time
     max = (datetime.datetime.utcnow() + datetime.timedelta(days=3)).isoformat() + 'Z'
     print('Getting the 1Days later event')
@@ -354,7 +350,7 @@ def calender():
         print("予約なし")
     for event in events:
         attend_line(event)
-    """
+    
     
 
 
@@ -375,7 +371,7 @@ def send_line(message):
     )
 
 
-"""
+
 #参加確認ライン送る
 def attend_line(event):
     start_str = event['start'].get('dateTime', event['start'].get('date'))
@@ -388,14 +384,14 @@ def attend_line(event):
     end_hour = f'{end.hour:02}'
     end_minute = f'{end.minute:02}'
     url = "https://notify-api.line.me/api/notify"
-    access_token = os.environ['Twinkles_TOKEN']
+    access_token = twin_token
     headers = {'Authorization': 'Bearer ' + access_token}
     try:
         location = event['location']
     except:
         location = ""
     
-    message = "\n" + "日付：" + day + "\n" + "時間：" + start_hour + ":" + start_minute + "-" + end_hour + ":" + end_minute + "\n" + "場所：" + location + "\n" + "内容：" + event['summary'] + "\n" + "参加者はこのトークにスタンプお願いします！"
+    message = "\n" + "日付：" + day + "\n" + "時間：" + start_hour + ":" + start_minute + "-" + end_hour + ":" + end_minute + "\n" + "場所：" + location + "\n" + "内容：" + event['summary'] + "\n" + "参加者はこのトークにリアクションお願いします！"
     data = {
         "message": message
     }
@@ -404,13 +400,11 @@ def attend_line(event):
         headers=headers,
         data=data,
     )
-"""
+
 
 if __name__ == '__main__':
     #try:
-    print("1")
     calender()
-    print("2")
     """
     except Exception as e:
         error = str(traceback.format_exc()) +"\ " + str(e)
