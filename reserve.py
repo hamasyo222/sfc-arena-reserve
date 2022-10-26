@@ -26,7 +26,7 @@ import sys
 keio_id = "y.taiga0726@keio.jp"
 keio_pass = "taiga1315"
 tell = "08024411260"
-line_token = "57rkwjrRbiWjbHckwbBR2xOETryM0euivjbQLJtLy9t"
+line_token = "6IvbcRQKexPEGwcvPg58NwmCGUPrTjLyPM9JtIc8qp3"
 
 
 
