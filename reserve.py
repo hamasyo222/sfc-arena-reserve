@@ -23,6 +23,12 @@ import traceback
 import sys
 
 
+keio_id = "y.taiga0726@keio.jp"
+keio_pass = "taiga1315"
+tell = "08024411260"
+line_token = "57rkwjrRbiWjbHckwbBR2xOETryM0euivjbQLJtLy9t"
+
+
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
@@ -56,6 +62,8 @@ def reserve(start, day):
         options.add_argument('--proxy-bypass-list=*');
         options.add_argument('--start-maximized');
         options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
+        
+        
 
         #0:00まで待機
         res_date = start - datetime.timedelta(days=14)
@@ -80,10 +88,10 @@ def reserve(start, day):
 
         #keio.jp認証
         #ID
-        driver.find_element(By.CSS_SELECTOR,'#username').send_keys(os.environ['KEIO_ACCOUNT'])#
+        driver.find_element(By.CSS_SELECTOR,'#username').send_keys(keio_id)#
 
         #パスワード
-        driver.find_element(By.CSS_SELECTOR,'#password').send_keys(os.environ['KEIO_PASSWORD'])#
+        driver.find_element(By.CSS_SELECTOR,'#password').send_keys(keio_pass)#
 
         #ログイン
         driver.find_element(By.CSS_SELECTOR,'#login > section.form-element-wrapper.login_b > button').click()
@@ -260,13 +268,13 @@ def detail(driver):
 
     #人数(塾内)
     driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').clear()
-    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').send_keys('40')
+    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(20) > div > input:nth-child(1)').send_keys('25')
 
     #e-mail
-    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(30) > div > input[type=text]:nth-child(1)').send_keys(os.environ['KEIO_ACCOUNT'])
+    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(30) > div > input[type=text]:nth-child(1)').send_keys(keio_id)
 
     #連絡先
-    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(32) > input[type=text]').send_keys(os.environ['TELL'])
+    driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(32) > input[type=text]').send_keys(tell)
 
 
 def calender():
@@ -343,8 +351,7 @@ def calender():
 #幹部ライン送る
 def send_line(message):
     url = "https://notify-api.line.me/api/notify"
-    access_token = os.environ['LINE_NOTIFY_TOKEN']
-    headers = {'Authorization': 'Bearer ' + access_token}
+    headers = {'Authorization': 'Bearer ' + line_token}
     
     message = message
     data = {
