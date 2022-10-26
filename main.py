@@ -425,12 +425,12 @@ def attend_line(event):
         data=data,
     )
 
-
+"""
 if __name__ == '__main__':
     #try:
     print("1")
     calender()
-    """
+    """"""
     except Exception as e:
         error = str(traceback.format_exc()) +"\ " + str(e)
         if len(error) > 950:
