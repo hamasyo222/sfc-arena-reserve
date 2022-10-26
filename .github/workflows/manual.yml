@@ -14,6 +14,7 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.8
+          
       - name: Install dependencies
         run: |
           # pip更新
@@ -27,7 +28,14 @@ jobs:
           pip install google_auth_oauthlib
           pip install google-api-python-client
           pip install google-auth-httplib2
-          pip install get-chrome-driver --upgrade
+          pip install chromedriver-binary==94.*
+          
+      - name: Install Chrome
+        run: |
+          sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          sudo apt update
+          sudo apt-get install google-chrome-stable
+          
       - name: Run script
         run: |
           # 定期実行するファイルを指定。・・・③
