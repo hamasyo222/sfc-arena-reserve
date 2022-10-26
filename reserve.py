@@ -79,6 +79,7 @@ def reserve(start, day):
         #
         # Chromeドライバーの起動
         #
+        print("ドライバー起動")
         DRIVER_PATH = '/app/.chromedriver/bin/chromedriver' #heroku
         #DRIVER_PATH = '/Users/hamasyo/Selenium/chromedriver' #ローカル
         chrome_sevice = fs.Service(DRIVER_PATH)
@@ -324,8 +325,11 @@ def calender():
             event = events[i]
             if i == 0:
                 start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
+                print("1")
                 driver = reserve(start,day)
+                print("2")
                 n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
+                print("3")
             else:
                 start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
                 n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
