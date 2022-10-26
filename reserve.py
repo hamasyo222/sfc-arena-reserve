@@ -82,10 +82,11 @@ def reserve(start, day):
         print("ドライバー起動")
         #DRIVER_PATH = '/app/.chromedriver/bin/chromedriver' #heroku
         #DRIVER_PATH = '/Users/hamasyo/Selenium/chromedriver' #ローカル
-        driver = GetChromeDriver()
-        driver.install()
+        get_driver = GetChromeDriver()
+        get_driver.install()
         #chrome_sevice = fs.Service(DRIVER_PATH)
-        driver = webdriver.Chrome(service=chrome_sevice, options=options)
+        driver = webdriver.Chrome(options=options)
+        #driver = webdriver.Chrome(service=chrome_sevice, options=options)
         driver.implicitly_wait(20)
 
         #施設予約システムにアクセス
