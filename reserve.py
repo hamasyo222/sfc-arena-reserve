@@ -66,7 +66,7 @@ def reserve(start, day):
         options.add_argument('--proxy-server="direct://"');
         options.add_argument('--proxy-bypass-list=*');
         options.add_argument('--start-maximized');
-        #options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
+        options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
         
         
 
