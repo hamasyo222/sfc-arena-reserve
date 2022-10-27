@@ -49,113 +49,103 @@ def setting_time(event):
     return(start, day, start_hour, start_minute, end_hour, end_minute)
 
 
-def reserve(start, day):
-    try:    
-        # 操作する
-        #
-        # Seleniumをあらゆる環境で起動させるオプション
-        #
-        options = Options()
-        options.add_argument('--disable-gpu')
-        options.add_argument('--disable-extensions')
-        options.add_argument('--proxy-server="direct://"')
-        options.add_argument('--proxy-bypass-list=*')
-        options.add_argument('--start-maximized')
-        options.add_argument('--no-sandbox')
-        options.add_argument('--headless') # ※ヘッドレスモードを使用する場合、コメントアウトを外す
-        options.binary_location = os.getcwd() + "/bin/headless-chromium"
-        driver = webdriver.Chrome(os.getcwd() + "/bin/chromedriver", chrome_options=options)
-        
-        
+def reserve(start, day):  
+    # 操作する
+    #
+    # Seleniumをあらゆる環境で起動させるオプション
+    #
+    options = Options()
+    options.add_argument('--disable-gpu')
+    options.add_argument('--disable-extensions')
+    options.add_argument('--proxy-server="direct://"')
+    options.add_argument('--proxy-bypass-list=*')
+    options.add_argument('--start-maximized')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--headless') # ※ヘッドレスモードを使用する場合、コメントアウトを外す
+    options.binary_location = os.getcwd() + "/bin/headless-chromium"
+    driver = webdriver.Chrome(os.getcwd() + "/bin/chromedriver", chrome_options=options)
+    
+    
 
-        #0:00まで待機
-        res_date = start - datetime.timedelta(days=14)
-        y = res_date.year
-        m = res_date.month
-        d = res_date.day
+    #0:00まで待機
+    res_date = start - datetime.timedelta(days=14)
+    y = res_date.year
+    m = res_date.month
+    d = res_date.day
 
-        while datetime.datetime.now() < datetime.datetime(y, m, d, 00, 00, 00):
-            time.sleep(1)
-
-        #
-        # Chromeドライバーの起動
-        #
-        print("ドライバー起動")
-
-        #DRIVER_PATH = '/app/.chromedriver/bin/chromedriver' #heroku
-        #DRIVER_PATH = '/Users/hamasyo/Selenium/chromedriver' #ローカル
-        #get_driver = GetChromeDriver()
-        #get_driver.install()
-        #chrome_sevice = fs.Service(DRIVER_PATH)
-        #driver = webdriver.Chrome(options=options)
-        #driver = webdriver.Chrome(service=chrome_sevice, options=options)
-        driver.implicitly_wait(20)
-
-        #施設予約システムにアクセス
-        driver.get("https://eqres01.adst.keio.ac.jp/")
-
-        #keio.jp認証
-        #ID
-        driver.find_element(By.CSS_SELECTOR,'#username').send_keys(keio_id)#
-
-        #パスワード
-        driver.find_element(By.CSS_SELECTOR,'#password').send_keys(keio_pass)#
-
-        #ログイン
-        driver.find_element(By.CSS_SELECTOR,'#login > section.form-element-wrapper.login_b > button').click()
-
-        #予約キー
-        driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body > form > div > dl > dd > input[type=text]').send_keys('0405241')
-
-        #次へ
-        driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body > form > div > dl > button').click()
-
-        #画面遷移
-
-        #期間始まり
-        driver.find_element(By.NAME,'s2[reservation_date]').click()
-        driver.find_element(By.NAME,'s2[reservation_date]').clear()
-        driver.find_element(By.NAME,'s2[reservation_date]').send_keys(day)
-        driver.find_element(By.NAME,'s2[reservation_date]').send_keys(Keys.ENTER)
-
-        #期間終わり
-        driver.find_element(By.NAME,'s2[reservation_date_to]').send_keys(day)
-        driver.find_element(By.NAME,'s2[reservation_date_to]').send_keys(Keys.ENTER)
-
+    while datetime.datetime.now() < datetime.datetime(y, m, d, 00, 00, 00):
         time.sleep(1)
-        #施設の種類
-        driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > div > div > div:nth-child(2) > label:nth-child(3) > input').click()
 
-        time.sleep(2)
-        #施設の種類
-        driver.find_element(By.CSS_SELECTOR,'#target_room_id').click()
+    #
+    # Chromeドライバーの起動
+    #
+    print("ドライバー起動")
 
-        #種類
-        driver.find_element(By.CSS_SELECTOR,'#s2-control_division_id').click()
-        #プルダウン選択
-        Select(driver.find_element(By.CSS_SELECTOR,'#s2-control_division_id')).select_by_value("113")
+    #DRIVER_PATH = '/app/.chromedriver/bin/chromedriver' #heroku
+    #DRIVER_PATH = '/Users/hamasyo/Selenium/chromedriver' #ローカル
+    #get_driver = GetChromeDriver()
+    #get_driver.install()
+    #chrome_sevice = fs.Service(DRIVER_PATH)
+    #driver = webdriver.Chrome(options=options)
+    #driver = webdriver.Chrome(service=chrome_sevice, options=options)
+    driver.implicitly_wait(20)
 
-        #プルダウン
-        while datetime.datetime.now() < datetime.datetime(y, m, d, 0, 0, 00):
-            time.sleep(1)
+    #施設予約システムにアクセス
+    driver.get("https://eqres01.adst.keio.ac.jp/")
+
+    #keio.jp認証
+    #ID
+    driver.find_element(By.CSS_SELECTOR,'#username').send_keys(keio_id)#
+
+    #パスワード
+    driver.find_element(By.CSS_SELECTOR,'#password').send_keys(keio_pass)#
+
+    #ログイン
+    driver.find_element(By.CSS_SELECTOR,'#login > section.form-element-wrapper.login_b > button').click()
+
+    #予約キー
+    driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body > form > div > dl > dd > input[type=text]').send_keys('0405241')
+
+    #次へ
+    driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body > form > div > dl > button').click()
+
+    #画面遷移
+
+    #期間始まり
+    driver.find_element(By.NAME,'s2[reservation_date]').click()
+    driver.find_element(By.NAME,'s2[reservation_date]').clear()
+    driver.find_element(By.NAME,'s2[reservation_date]').send_keys(day)
+    driver.find_element(By.NAME,'s2[reservation_date]').send_keys(Keys.ENTER)
+    
+    #期間終わり
+    driver.find_element(By.NAME,'s2[reservation_date_to]').send_keys(day)
+    driver.find_element(By.NAME,'s2[reservation_date_to]').send_keys(Keys.ENTER)
+
+    time.sleep(1)
+    #施設の種類
+    driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > div > div > div:nth-child(2) > label:nth-child(3) > input').click()
+
+    time.sleep(2)
+    #施設の種類
+    driver.find_element(By.CSS_SELECTOR,'#target_room_id').click()
+
+    #種類
+    driver.find_element(By.CSS_SELECTOR,'#s2-control_division_id').click()
+    #プルダウン選択
+    Select(driver.find_element(By.CSS_SELECTOR,'#s2-control_division_id')).select_by_value("113")
+
+    #プルダウン
+    while datetime.datetime.now() < datetime.datetime(y, m, d, 0, 0, 00):
+        time.sleep(1)
 
 
-        #検索
-        driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > button').click()
+    #検索
+    driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > button').click()
 
-        return(driver)
-
-
-    except Exception as e:
-        error = str(traceback.format_exc()) +"\ " + str(e)
-        if len(error) > 950:
-            errors = [error[i: i+950] for i in range(0, len(error), 950)]
-            for j in range(len(errors)):
-                send_line(errors[j])
+    return(driver)
  
 
 def select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n):
-    #try:
     if event['location'] == "SFCアリーナ奥":
         n = arena_back(driver, start_hour, start_minute, end_hour, end_minute, n)
     elif event['location'] == "SFCアリーナ手前":
@@ -163,14 +153,7 @@ def select_place(event, day, start_hour, start_minute, end_hour, end_minute, dri
     else:
         n = arena_back(driver, start_hour, start_minute, end_hour, end_minute, n)
         n = arena_before(driver, start_hour, start_minute, end_hour, end_minute, n)
-            
-    """except Exception as e:
-        error = str(traceback.format_exc()) +"\ " + str(e)
-        if len(error) > 950:
-            errors = [error[i: i+950] for i in range(0, len(error), 950)]
-            for j in range(len(errors)):
-                send_line(errors[j])"""
-    #else:
+
     message = day + " " + start_hour + ":" + start_minute + "〜" + end_hour + ":" + end_minute + event['location'] + "予約完了"
     send_line(message)
     return n
@@ -408,4 +391,12 @@ def attend_line(event):
 
 
 if __name__ == '__main__':
-    calender()
+    try:
+        calender()
+
+    except Exception as e:
+        error = str(traceback.format_exc()) +"\ " + str(e)
+        if len(error) > 950:
+            errors = [error[i: i+950] for i in range(0, len(error), 950)]
+            for j in range(len(errors)):
+                send_line(errors[j])
