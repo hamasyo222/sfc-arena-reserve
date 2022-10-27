@@ -178,7 +178,6 @@ def select_place(event, day, start_hour, start_minute, end_hour, end_minute, dri
 
 #時間選択 アリーナ奥
 def arena_back(driver, start_hour, start_minute, end_hour, end_minute, n):
-    time.sleep(10)
     driver.find_element(By.CSS_SELECTOR,'#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(2) > td:nth-child(2) > div.time_cell.relative > label:nth-child(66)').click()
     #開始プルダウン
     #時間
@@ -300,7 +299,6 @@ def calender():
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
-    print("2")
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
@@ -313,7 +311,6 @@ def calender():
         #with open('token.pickle', 'wb') as token:
             #pickle.dump(creds, token)
     service = build('calendar', 'v3', credentials=creds)
-    print("3")
 
     # Call the Calendar API
     #予約の判別
@@ -327,24 +324,6 @@ def calender():
                                         timeMax=max,maxResults=9999, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-
-    #目的以外の日を排除
-    """
-    j = 0
-    print(datetime.datetime.utcnow())
-    target_datetime = datetime.datetime.utcnow() + datetime.timedelta(days=15) #テスト時、9:00を超えていて同日予約は14に。
-    target_day = target_datetime.date()
-    t_day_str = target_day.strftime('%Y/%m/%d')
-    print(t_day_str)
-    for i in range(len(events)):
-        event = events[j]
-        start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
-        if day != t_day_str:
-            events.pop(j)
-        else:
-            j += 1
-            """
-
 
     if not events:
         print("予約なし")
@@ -429,13 +408,4 @@ def attend_line(event):
 
 
 if __name__ == '__main__':
-    #try:
-    print("1")
     calender()
-    """
-    except Exception as e:
-        error = str(traceback.format_exc()) +"\ " + str(e)
-        if len(error) > 950:
-            errors = [error[i: i+950] for i in range(0, len(error), 950)]
-            for j in range(len(errors)):
-                send_line(errors[j])"""
