@@ -68,7 +68,7 @@ def reserve(start, day):
     
 
     #0:00まで待機
-    res_date = start - datetime.timedelta(days=15)
+    res_date = start - datetime.timedelta(days=14)
     y = res_date.year
     m = res_date.month
     d = res_date.day
