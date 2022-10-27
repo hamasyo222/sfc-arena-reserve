@@ -92,6 +92,7 @@ def reserve(start, day):
         driver = webdriver.Chrome(options=options)
         #driver = webdriver.Chrome(service=chrome_sevice, options=options)
         driver.implicitly_wait(20)
+        driver.set_window_size(1200,1000)
 
         #施設予約システムにアクセス
         driver.get("https://eqres01.adst.keio.ac.jp/")
