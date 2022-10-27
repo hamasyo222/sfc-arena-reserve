@@ -31,8 +31,7 @@ keio_id = "hamasyo222@keio.jp"
 keio_pass = "Konnitiwa196"
 tell = "08024411260"
 #line_token = "6IvbcRQKexPEGwcvPg58NwmCGUPrTjLyPM9JtIc8qp3" 
-#line_token = "1M36qrYaziRpapUJXjlPZT0sGL0NX9fnjSlYZqVBph2" #テスト用
-line_token = "tXOhwzsZdi1aehJ7MH8bFAs0KLbgjEomzwwQoLXNMP6" #黎明
+line_token = "1M36qrYaziRpapUJXjlPZT0sGL0NX9fnjSlYZqVBph2" #テスト用
 twin_token = "Gebrg0EUKBHWcGZt2qzwpEhabPWjywdHQqJbcwixXHk" #ツイン全体
 
 
