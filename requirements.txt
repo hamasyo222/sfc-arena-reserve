@@ -1,5 +1,3 @@
-chromedriver
-chromedriver-binary
 urllib3
 beautifulsoup4
 requests
