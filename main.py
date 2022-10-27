@@ -178,7 +178,7 @@ def select_place(event, day, start_hour, start_minute, end_hour, end_minute, dri
 
 #時間選択 アリーナ奥
 def arena_back(driver, start_hour, start_minute, end_hour, end_minute, n):
-    driver.save_screenshot("/tmp/image.jpeg")
+    driver.save_screenshot("/tmp/image.png")
     driver.find_element(By.CSS_SELECTOR,'#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(2) > td:nth-child(2) > div.time_cell.relative > label:nth-child(66)').click()
     #開始プルダウン
     #時間
