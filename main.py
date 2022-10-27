@@ -128,6 +128,7 @@ def reserve(start, day):
         #施設の種類
         driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > div > div > div:nth-child(2) > label:nth-child(3) > input').click()
 
+        time.sleep(2)
         #施設の種類
         driver.find_element(By.CSS_SELECTOR,'#target_room_id').click()
 
@@ -139,6 +140,7 @@ def reserve(start, day):
         #プルダウン
         while datetime.datetime.now() < datetime.datetime(y, m, d, 0, 0, 00):
             time.sleep(1)
+
 
         #検索
         driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > button').click()
@@ -289,7 +291,7 @@ def detail(driver):
     driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(32) > input[type=text]').send_keys(tell)
 
 
-def calender(event, context):
+def calender():
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
