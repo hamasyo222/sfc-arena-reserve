@@ -11,11 +11,14 @@ jobs:
 
     # 実行する処理＆コマンド指定
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v1
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.8
+          # Semantic version range syntax or exact version of a Python version
+          python-version: '3.9'
+          # Optional - x64 or x86 architecture, defaults to x64
+          architecture: 'x64'
           
       - name: Install dependencies
         run: |
@@ -24,19 +27,12 @@ jobs:
           pip install urllib3
           pip install beautifulsoup4
           pip install requests
-          pip install selenium
-          pip install futures
+          pip install selenium==3.13.0
           pip install lxml
           pip install google_auth_oauthlib
           pip install google-api-python-client
           pip install google-auth-httplib2
-          pip install get-chrome-driver --upgrade
           
-      - name: Install Chrome
-        run: |
-          sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          sudo apt update
-          sudo apt-get install google-chrome-stable
           
       - name: Run script
         run: |
