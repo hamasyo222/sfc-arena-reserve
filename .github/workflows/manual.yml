@@ -42,4 +42,4 @@ jobs:
       - name: Run script
         run: |
           # 定期実行するファイルを指定。・・・③
-          python reserve.py
+          python main.py
