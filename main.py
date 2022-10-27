@@ -20,7 +20,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome import service as fs
 import traceback
 import sys
-from get_chrome_driver import GetChromeDriver
 
 
 #keio_id = "y.taiga0726@keio.jp"
