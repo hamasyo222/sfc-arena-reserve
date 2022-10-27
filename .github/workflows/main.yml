@@ -40,5 +40,10 @@ jobs:
           
       - name: Run script
         run: |
-          # 定期実行するファイルを指定。・・・③
           python main.py
+        env:
+          KEIO_ID: ${{ secrets.KEIO_ID }}
+          KEIO_PASS: ${{ secrets.KEIO_PASS }}
+          TELL: ${{ secrets.TELL }}
+          NOTIFY_TOKEN: ${{ secrets.NOTIFY_TOKEN }}
+          TWIN_TOKEN: ${{ secrets.TWIN_TOKEN }}
