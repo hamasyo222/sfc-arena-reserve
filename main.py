@@ -73,7 +73,7 @@ def reserve(start, day):
     m = res_date.month
     d = res_date.day
 
-    while datetime.datetime.utcnow() < datetime.datetime(y, m, d, 15, 35, 00):
+    while datetime.datetime.utcnow() < datetime.datetime(y, m, d, 14, 30, 00):
         time.sleep(1)
 
     #
