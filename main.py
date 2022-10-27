@@ -22,14 +22,11 @@ import traceback
 import sys
 
 
-#keio_id = "y.taiga0726@keio.jp"
-#keio_pass = "taiga1315"
-keio_id = "hamasyo222@keio.jp"
-keio_pass = "Konnitiwa196"
-tell = "08024411260"
-#line_token = "6IvbcRQKexPEGwcvPg58NwmCGUPrTjLyPM9JtIc8qp3" 
-line_token = "1M36qrYaziRpapUJXjlPZT0sGL0NX9fnjSlYZqVBph2" #テスト用
-twin_token = "Gebrg0EUKBHWcGZt2qzwpEhabPWjywdHQqJbcwixXHk" #ツイン全体
+keio_id = os.environ["KEIO_ID"]
+keio_pass = os.environ["KEIO_PASS"]
+tell = os.environ["TELL"]
+line_token = os.environ["NOTIFY_TOKEN"]
+twin_token = os.environ["TWIN_TOKEN"] #ツイン全体
 
 
 
@@ -320,7 +317,7 @@ def calender():
 
     # Call the Calendar API
     #予約の判別
-    min = (datetime.datetime.utcnow() + datetime.timedelta(days=13)).isoformat() + 'Z' # 'Z' indicates UTC time
+    min = (datetime.datetime.utcnow() + datetime.timedelta(days=14)).isoformat() + 'Z' # 'Z' indicates UTC time
     max = (datetime.datetime.utcnow() + datetime.timedelta(days=15)).isoformat() + 'Z'
 
     print('Getting the 2weeks later event')
