@@ -61,12 +61,13 @@ def reserve(start, day):
         # Seleniumをあらゆる環境で起動させるオプション
         #
         options = Options()
-        options.add_argument('--disable-gpu');
-        options.add_argument('--disable-extensions');
-        options.add_argument('--proxy-server="direct://"');
-        options.add_argument('--proxy-bypass-list=*');
-        options.add_argument('--start-maximized');
-        options.add_argument('--headless'); # ※ヘッドレスモードを使用する場合、コメントアウトを外す
+        options.add_argument('--disable-gpu')
+        options.add_argument('--disable-extensions')
+        options.add_argument('--proxy-server="direct://"')
+        options.add_argument('--proxy-bypass-list=*')
+        options.add_argument('--start-maximized')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--headless') # ※ヘッドレスモードを使用する場合、コメントアウトを外す
         
         
 
@@ -92,7 +93,6 @@ def reserve(start, day):
         driver = webdriver.Chrome(options=options)
         #driver = webdriver.Chrome(service=chrome_sevice, options=options)
         driver.implicitly_wait(20)
-        driver.set_window_size(1200,1000)
 
         #施設予約システムにアクセス
         driver.get("https://eqres01.adst.keio.ac.jp/")
@@ -178,7 +178,7 @@ def select_place(event, day, start_hour, start_minute, end_hour, end_minute, dri
 
 #時間選択 アリーナ奥
 def arena_back(driver, start_hour, start_minute, end_hour, end_minute, n):
-    time.sleep(3)
+    driver.save_screenshot("/tmp/image.jpeg")
     driver.find_element(By.CSS_SELECTOR,'#main_content > div.container > div.container_body.noscroll > div.fix_tbl_area.time_table.found-reservable > div.fix_bottom_right > div > div > table > tbody > tr:nth-child(2) > td:nth-child(2) > div.time_cell.relative > label:nth-child(66)').click()
     #開始プルダウン
     #時間
