@@ -3,7 +3,6 @@ chromedriver-binary
 urllib3
 beautifulsoup4
 requests
-selenium
 futures
 lxml
 google_auth_oauthlib
@@ -11,3 +10,5 @@ google-api-python-client
 google-auth-httplib2
 get-chrome-driver
 functions-framework==3.*
+fake-useragent==0.1.11
+selenium==3.13.0
