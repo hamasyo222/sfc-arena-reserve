@@ -293,7 +293,7 @@ def detail(driver):
     driver.find_element(By.CSS_SELECTOR,'#reservation-form > dl > dd:nth-child(32) > input[type=text]').send_keys(tell)
 
 
-def calender(event, context):
+def calender():
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
