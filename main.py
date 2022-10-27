@@ -63,7 +63,7 @@ def reserve(start, day):
     options.add_argument('--no-sandbox')
     options.add_argument('--headless') # ※ヘッドレスモードを使用する場合、コメントアウトを外す
     options.binary_location = os.getcwd() + "/bin/headless-chromium"
-    driver = webdriver.Chrome(os.getcwd() + "/bin/chromedriver", chrome_options=options)
+    
     
     
 
@@ -73,7 +73,7 @@ def reserve(start, day):
     m = res_date.month
     d = res_date.day
 
-    while datetime.datetime.utcnow() < datetime.datetime(y, m, d, 14, 55, 00):
+    while datetime.datetime.utcnow() < datetime.datetime(y, m, d, 15, 35, 00):
         time.sleep(1)
 
     #
@@ -88,6 +88,7 @@ def reserve(start, day):
     #chrome_sevice = fs.Service(DRIVER_PATH)
     #driver = webdriver.Chrome(options=options)
     #driver = webdriver.Chrome(service=chrome_sevice, options=options)
+    driver = webdriver.Chrome(os.getcwd() + "/bin/chromedriver", chrome_options=options)
     driver.implicitly_wait(20)
 
     #施設予約システムにアクセス
