@@ -125,6 +125,7 @@ def reserve(start, day):
         driver.find_element(By.NAME,'s2[reservation_date_to]').send_keys(day)
         driver.find_element(By.NAME,'s2[reservation_date_to]').send_keys(Keys.ENTER)
 
+        time.sleep(1)
         #施設の種類
         driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > div > div > div:nth-child(2) > label:nth-child(3) > input').click()
 
