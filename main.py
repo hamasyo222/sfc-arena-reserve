@@ -21,6 +21,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome import service as fs
 import traceback
 import sys
+from fake_useragent import UserAgent
 from get_chrome_driver import GetChromeDriver
 
 
@@ -69,6 +70,8 @@ def reserve(start, day):
         options.add_argument('--start-maximized')
         options.add_argument('--no-sandbox')
         options.add_argument('--headless') # ※ヘッドレスモードを使用する場合、コメントアウトを外す
+        options.binary_location = os.getcwd() + "/bin/headless-chromium"
+        driver = webdriver.Chrome(os.getcwd() + "/bin/chromedriver", chrome_options=options)
         
         
 
@@ -88,10 +91,10 @@ def reserve(start, day):
 
         #DRIVER_PATH = '/app/.chromedriver/bin/chromedriver' #heroku
         #DRIVER_PATH = '/Users/hamasyo/Selenium/chromedriver' #ローカル
-        get_driver = GetChromeDriver()
-        get_driver.install()
+        #get_driver = GetChromeDriver()
+        #get_driver.install()
         #chrome_sevice = fs.Service(DRIVER_PATH)
-        driver = webdriver.Chrome(options=options)
+        #driver = webdriver.Chrome(options=options)
         #driver = webdriver.Chrome(service=chrome_sevice, options=options)
         driver.implicitly_wait(20)
 
