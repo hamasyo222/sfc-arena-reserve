@@ -113,6 +113,7 @@ def reserve(start, day):
     #画面遷移
 
     #期間始まり
+    time.sleep(1)
     driver.find_element(By.NAME,'s2[reservation_date]').click()
     driver.find_element(By.NAME,'s2[reservation_date]').clear()
     driver.find_element(By.NAME,'s2[reservation_date]').send_keys(day)
@@ -126,7 +127,7 @@ def reserve(start, day):
     #施設の種類
     driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > div > div > div:nth-child(2) > label:nth-child(3) > input').click()
 
-    time.sleep(2)
+    time.sleep(1)
     #施設の種類
     driver.find_element(By.CSS_SELECTOR,'#target_room_id').click()
 
@@ -325,22 +326,20 @@ def calender():
 
             
     #参加確認の判別
-    """
-    min = (datetime.datetime.utcnow() + datetime.timedelta(days=2)).isoformat() + 'Z' # 'Z' indicates UTC time
-    max = (datetime.datetime.utcnow() + datetime.timedelta(days=3)).isoformat() + 'Z'
+
+    min = (datetime.datetime.utcnow() + datetime.timedelta(days=1)).isoformat() + 'Z' # 'Z' indicates UTC time
+    max = (datetime.datetime.utcnow() + datetime.timedelta(days=2)).isoformat() + 'Z'
     print('Getting the 1Days later event')
     print(min)
     print(max)
     events_result = service.events().list(calendarId='3442e499hjv4j581l1c68n4v2g@group.calendar.google.com', timeMin=min,
-                                        timeMax=max,maxResults=1, singleEvents=True,
+                                        timeMax=max,maxResults=5, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
     if not events:
         print("予約なし")
     for event in events:
         attend_line(event)
-    """
-    
 
 
 #幹部ライン送る
