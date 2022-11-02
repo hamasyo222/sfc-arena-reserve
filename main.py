@@ -325,7 +325,7 @@ def calender():
 
             
     #参加確認の判別
-    
+    """
     min = (datetime.datetime.utcnow() + datetime.timedelta(days=2)).isoformat() + 'Z' # 'Z' indicates UTC time
     max = (datetime.datetime.utcnow() + datetime.timedelta(days=3)).isoformat() + 'Z'
     print('Getting the 1Days later event')
@@ -339,7 +339,7 @@ def calender():
         print("予約なし")
     for event in events:
         attend_line(event)
-    
+    """
     
 
 
