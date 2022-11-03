@@ -88,7 +88,7 @@ def reserve(start, day):
     #chrome_sevice = fs.Service(DRIVER_PATH)
     #driver = webdriver.Chrome(options=options)
     #driver = webdriver.Chrome(service=chrome_sevice, options=options)
-    driver = webdriver.Chrome(os.getcwd() + "/bin/chromedriver", chrome_options=options)
+    driver = webdriver.Chrome(os.getcwd() + "/bin/chromedriver", options=options)
     driver.implicitly_wait(20)
 
     #施設予約システムにアクセス
