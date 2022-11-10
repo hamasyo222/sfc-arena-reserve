@@ -114,7 +114,7 @@ def reserve(start, day):
 
     #期間始まり
     time.sleep(1)
-    for i in 10:
+    for i in range(10):
         try:
             driver.find_element(By.NAME,'s2[reservation_date]').click()
             break
