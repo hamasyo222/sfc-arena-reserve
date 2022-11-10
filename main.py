@@ -113,13 +113,8 @@ def reserve(start, day):
     #画面遷移
 
     #期間始まり
-    time.sleep(1)
-    for i in range(10):
-        try:
-            driver.find_element(By.NAME,'s2[reservation_date]').click()
-            break
-        except Exception:
-            time.sleep(1)
+    time.sleep(3)
+    driver.find_element(By.NAME,'s2[reservation_date]').click()
     driver.find_element(By.NAME,'s2[reservation_date]').clear()
     driver.find_element(By.NAME,'s2[reservation_date]').send_keys(day)
     driver.find_element(By.NAME,'s2[reservation_date]').send_keys(Keys.ENTER)
