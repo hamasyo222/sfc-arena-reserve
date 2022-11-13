@@ -113,7 +113,7 @@ def reserve(start, day):
     #画面遷移
 
     #期間始まり
-    time.sleep(3)
+    time.sleep(5)
     driver.find_element(By.NAME,'s2[reservation_date]').click()
     driver.find_element(By.NAME,'s2[reservation_date]').clear()
     driver.find_element(By.NAME,'s2[reservation_date]').send_keys(day)
