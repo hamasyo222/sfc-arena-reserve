@@ -107,13 +107,15 @@ def reserve(start, day):
     #予約キー
     driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body > form > div > dl > dd > input[type=text]').send_keys('0405241')
 
+    time.sleep(1)
+    
     #次へ
     driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body > form > div > dl > button').click()
 
     #画面遷移
 
     #期間始まり
-    time.sleep(5)
+    time.sleep(1)
 
     w = driver.execute_script("return document.body.scrollWidth;")
     # set window size
