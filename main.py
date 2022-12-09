@@ -116,14 +116,6 @@ def reserve(start, day):
 
     #期間始まり
     time.sleep(1)
-
-    w = driver.execute_script("return document.body.scrollWidth;")
-    # set window size
-    driver.set_window_size(w,w)
-    # Get Screen Shot
-    driver.save_screenshot("image.jpeg")
-    #ライン送信
-    main_gazo()
     
     driver.find_element(By.NAME,'s2[reservation_date]').click()
     driver.find_element(By.NAME,'s2[reservation_date]').clear()
@@ -399,19 +391,6 @@ def attend_line(event):
         headers=headers,
         data=data,
     )
-
-
-def main_gazo():
-    url = "https://notify-api.line.me/api/notify"
-    token = line_token
-    headers = {"Authorization" : "Bearer "+ token}
-
-    message = "error"
-    payload = {"message" :  message}
-    #imagesフォルダの中のgazo.jpg
-    files = {"imageFile":open('image.jpeg','rb')}
-    #rbはバイナリファイルを読み込む
-    post = requests.post(url ,headers = headers, params=payload,files=files)
 
 
 if __name__ == '__main__':
