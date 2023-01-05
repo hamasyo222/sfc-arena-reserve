@@ -302,7 +302,7 @@ def calender():
 
     # Call the Calendar API
     #予約の判別
-    min = (datetime.datetime.utcnow() + datetime.timedelta(days=14)).isoformat() + 'Z' # 'Z' indicates UTC time
+    min = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     max = (datetime.datetime.utcnow() + datetime.timedelta(days=15)).isoformat() + 'Z'
 
     print('Getting the 2weeks later event')
@@ -317,32 +317,20 @@ def calender():
         print("予約なし")
     else:
         n = 0
-        for i in range(len(events)):
-            event = events[i]
-            if i == 0:
-                start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
-                driver = reserve(start,day)
-                n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
-            else:
-                start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
-                n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
+        for event in events:
+            start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
+            if datetime.datetime.utcnow() + datetime.timedelta(days=14,hours=9) < start < datetime.datetime.utcnow() + datetime.timedelta(days=15,hours=9):
+                if n == 0:
+                    driver = reserve(start,day)
+                    n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
+                else:
+                    n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
 
-            
     #参加確認の判別
-
-    min = (datetime.datetime.utcnow() + datetime.timedelta(days=1)).isoformat() + 'Z' # 'Z' indicates UTC time
-    max = (datetime.datetime.utcnow() + datetime.timedelta(days=2)).isoformat() + 'Z'
-    print('Getting the 1Days later event')
-    print(min)
-    print(max)
-    events_result = service.events().list(calendarId='3442e499hjv4j581l1c68n4v2g@group.calendar.google.com', timeMin=min,
-                                        timeMax=max,maxResults=5, singleEvents=True,
-                                        orderBy='startTime').execute()
-    events = events_result.get('items', [])
-    if not events:
-        print("予約なし")
     for event in events:
-        attend_line(event)
+        start = setting_time(event)
+        if datetime.datetime.utcnow() + datetime.timedelta(days=1,hours=9) < start < datetime.datetime.utcnow() + datetime.timedelta(days=2,hours=9):
+            attend_line(event)
 
 
 #幹部ライン送る
