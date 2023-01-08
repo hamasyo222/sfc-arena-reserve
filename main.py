@@ -312,7 +312,6 @@ def calender():
                                         timeMax=max,maxResults=9999, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-    print(events)
     """
     if not events:
         print("予約なし")
@@ -332,8 +331,9 @@ def calender():
     for event in events:
         start = setting_time(event)
         print("start:",start)
+        """
         if datetime.datetime.utcnow() + datetime.timedelta(days=1,hours=9) < start < datetime.datetime.utcnow() + datetime.timedelta(days=2,hours=9):
-            attend_line(event)
+            attend_line(event)"""
 
 
 #幹部ライン送る
