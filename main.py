@@ -312,7 +312,7 @@ def calender():
                                         timeMax=max,maxResults=9999, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-
+    """
     if not events:
         print("予約なし")
     else:
@@ -325,9 +325,11 @@ def calender():
                     n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
                 else:
                     n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
-
+"""
     #参加確認の判別
+    print(datetime.datetime.utcnow() + datetime.timedelta(days=1,hours=9))
     for event in events:
+        print(event)
         start = setting_time(event)
         if datetime.datetime.utcnow() + datetime.timedelta(days=1,hours=9) < start < datetime.datetime.utcnow() + datetime.timedelta(days=2,hours=9):
             attend_line(event)
