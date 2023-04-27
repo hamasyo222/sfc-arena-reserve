@@ -116,9 +116,7 @@ def reserve(start, day):
 
     #期間始まり
     time.sleep(1)
-    search_conditions(driver, day)
-
-def search_conditions(driver, day):
+    
     driver.find_element(By.NAME,'s2[reservation_date]').click()
     driver.find_element(By.NAME,'s2[reservation_date]').clear()
     driver.find_element(By.NAME,'s2[reservation_date]').send_keys(day)
@@ -140,6 +138,11 @@ def search_conditions(driver, day):
     driver.find_element(By.CSS_SELECTOR,'#s2-control_division_id').click()
     #プルダウン選択
     Select(driver.find_element(By.CSS_SELECTOR,'#s2-control_division_id')).select_by_value("113")
+
+    #プルダウン
+    while datetime.datetime.now() < datetime.datetime(y, m, d, 0, 0, 00):
+        time.sleep(1)
+
 
     #検索
     driver.find_element(By.CSS_SELECTOR,'#main_content > div > div.container_body.top_info > div > div:nth-child(2) > div > form > button').click()
@@ -314,32 +317,14 @@ def calender():
         print("予約なし")
     else:
         n = 0
-        if datetime.date(now.year, 3, 31) == datetime.date(now.year, now.month, now.day):
-            for event in events:
-                start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
-                now = datetime.datetime.utcnow()
-            
+        for event in events:
+            start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
+            if datetime.datetime.utcnow() + datetime.timedelta(days=14,hours=9) < start < datetime.datetime.utcnow() + datetime.timedelta(days=15,hours=9):
                 if n == 0:
                     driver = reserve(start,day)
                     n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
                 else:
-                    if day == last_day:
-                        n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
-                    else:
-                        driver.find_element(By.CSS_SELECTOR,'#main_content > div.container > div.container_head > div > ul > li > a').click()
-                        search_conditions(driver, day)
-                        n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
-                last_day = day
-        else:
-            for event in events:
-                start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
-                now = datetime.datetime.utcnow()
-                if datetime.datetime.utcnow() + datetime.timedelta(days=14,hours=9) < start < datetime.datetime.utcnow() + datetime.timedelta(days=15,hours=9):
-                    if n == 0:
-                        driver = reserve(start,day)
-                        n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
-                    else:
-                        n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
+                    n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
 
     #参加確認の判別
     for event in events:
