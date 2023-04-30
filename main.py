@@ -327,10 +327,11 @@ def calender():
                     n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
 
     #参加確認の判別
+    """
     for event in events:
         start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
         if datetime.datetime.utcnow() + datetime.timedelta(days=1,hours=9) < start < datetime.datetime.utcnow() + datetime.timedelta(days=2,hours=9):
-            attend_line(event)
+            attend_line(event)"""
 
 
 #幹部ライン送る
