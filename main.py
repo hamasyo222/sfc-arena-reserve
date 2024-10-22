@@ -25,8 +25,8 @@ import sys
 keio_id = os.environ["KEIO_ID"]
 keio_pass = os.environ["KEIO_PASS"]
 tell = os.environ["TELL"]
-line_token = os.environ["NOTIFY_TOKEN"]
-twin_token = os.environ["TWIN_TOKEN"] #ツイン全体
+line_token = os.environ["np51SvAnnMw6ay84USPZhMZb44G0YSAuLRjxYbAYupo"]#NOTIFY_TOKEN
+twin_token = os.environ["np51SvAnnMw6ay84USPZhMZb44G0YSAuLRjxYbAYupo"] #ツイン全体TWIN_TOKEN
 
 
 
@@ -96,7 +96,6 @@ def reserve(start, day):
     driver.get("https://eqres01.adst.keio.ac.jp/")
 
     #keio.jp認証
-    driver.switch_to.frame(driver.find_element(By.TAG_NAME,'iframe'))
     #ID
     driver.find_element(By.CSS_SELECTOR,'#input28').send_keys(keio_id)
 
