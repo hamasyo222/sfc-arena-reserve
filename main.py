@@ -19,8 +19,8 @@ from selenium.webdriver.support import expected_conditions as EC
 keio_id = os.environ["KEIO_ID"]#""#
 keio_pass = os.environ["KEIO_PASS"]#""#
 tell = os.environ["TELL"]#""#
-line_token = os.environ["NOTIFY_TOKEN"]#"np51SvAnnMw6ay84USPZhMZb44G0YSAuLRjxYbAYupo"# 
-twin_token = os.environ["TWIN_TOKEN"]#"np51SvAnnMw6ay84USPZhMZb44G0YSAuLRjxYbAYupo" #ツイン全体 
+line_token = "np51SvAnnMw6ay84USPZhMZb44G0YSAuLRjxYbAYupo"## os.environ["NOTIFY_TOKEN"]
+twin_token = "np51SvAnnMw6ay84USPZhMZb44G0YSAuLRjxYbAYupo"#"np51SvAnnMw6ay84USPZhMZb44G0YSAuLRjxYbAYupo" #ツイン全体 os.environ["TWIN_TOKEN"]
 
 
 
