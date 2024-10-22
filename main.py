@@ -67,7 +67,7 @@ def reserve(start, day):
     #
     print("ドライバー起動")
 
-    driver = driver = webdriver.Chrome()
+    driver = webdriver.Chrome()
     driver.implicitly_wait(20)
 
     #施設予約システムにアクセス
