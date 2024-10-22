@@ -8,25 +8,19 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 import time
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.alert import Alert
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.chrome import service as fs
-import traceback
-import sys
 
 
-keio_id = os.environ["KEIO_ID"]
-keio_pass = os.environ["KEIO_PASS"]
-tell = os.environ["TELL"]
-line_token = "np51SvAnnMw6ay84USPZhMZb44G0YSAuLRjxYbAYupo"# os.environ["NOTIFY_TOKEN"]
-twin_token = "np51SvAnnMw6ay84USPZhMZb44G0YSAuLRjxYbAYupo" #ツイン全体 os.environ["TWIN_TOKEN"]
+
+
+keio_id = os.environ["KEIO_ID"]#""#
+keio_pass = os.environ["KEIO_PASS"]#""#
+tell = os.environ["TELL"]#""#
+line_token = os.environ["NOTIFY_TOKEN"]#"np51SvAnnMw6ay84USPZhMZb44G0YSAuLRjxYbAYupo"# 
+twin_token = os.environ["TWIN_TOKEN"]#"np51SvAnnMw6ay84USPZhMZb44G0YSAuLRjxYbAYupo" #ツイン全体 
 
 
 
@@ -54,25 +48,16 @@ def reserve(start, day):
     #
     # Seleniumをあらゆる環境で起動させるオプション
     #
-    options = Options()
-    options.add_argument('--disable-gpu')
-    options.add_argument('--disable-extensions')
-    options.add_argument('--proxy-server="direct://"')
-    options.add_argument('--proxy-bypass-list=*')
-    options.add_argument('--start-maximized')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--headless') # ※ヘッドレスモードを使用する場合、コメントアウトを外す
-    options.binary_location = os.getcwd() + "/bin/headless-chromium"
     
     
     
-    """
+    
     #0:00まで待機
     res_date = start - datetime.timedelta(days=15)
     y = res_date.year
     m = res_date.month
     d = res_date.day
-
+    """
     while datetime.datetime.utcnow() < datetime.datetime(y, m, d, 15, 00, 00):
         time.sleep(1)
     """
@@ -82,14 +67,7 @@ def reserve(start, day):
     #
     print("ドライバー起動")
 
-    #DRIVER_PATH = '/app/.chromedriver/bin/chromedriver' #heroku
-    #DRIVER_PATH = '/Users/hamasyo/Selenium/chromedriver' #ローカル
-    #get_driver = GetChromeDriver()
-    #get_driver.install()
-    #chrome_sevice = fs.Service(DRIVER_PATH)
-    #driver = webdriver.Chrome(options=options)
-    #driver = webdriver.Chrome(service=chrome_sevice, options=options)
-    driver = webdriver.Chrome(os.getcwd() + "/bin/chromedriver", options=options)
+    driver = driver = webdriver.Chrome()
     driver.implicitly_wait(20)
 
     #施設予約システムにアクセス
@@ -97,13 +75,13 @@ def reserve(start, day):
 
     #keio.jp認証
     #ID
-    driver.find_element(By.XPATH,'/html/body/div[2]/div[2]/main/div[2]/div/div/div[2]/form/div[1]/div[3]/div/div[2]/span/input').send_keys(keio_id)
+    driver.find_element(By.CSS_SELECTOR,'#input28').send_keys(keio_id)
 
     #次へ
     driver.find_element(By.CSS_SELECTOR,'#form20 > div.o-form-button-bar > input').click()
 
     #パスワード
-    driver.find_element(By.XPATH,'/html/body/div[2]/div[2]/main/div[2]/div/div/div[2]/form/div[1]/div[3]/div/div[2]/span/input').send_keys(keio_pass)#
+    driver.find_element(By.CSS_SELECTOR,'#input53').send_keys(keio_pass)#
 
     #確認
     driver.find_element(By.CSS_SELECTOR,'#form45 > div.o-form-button-bar > input').click()
@@ -281,62 +259,52 @@ def detail(driver):
 
 
 def calender():
-    try:
-        """Shows basic usage of the Google Calendar API.
-        Prints the start and name of the next 10 events on the user's calendar.
-        """
-        creds = None
-        # The file token.pickle stores the user's access and refresh tokens, and is
-        # created automatically when the authorization flow completes for the first
-        # time.
-        if os.path.exists('token.pickle'):
-            with open('token.pickle', 'rb') as token:
-                creds = pickle.load(token)
-        # If there are no (valid) credentials available, let the user log in.
-        if not creds or not creds.valid:
-            if creds and creds.expired and creds.refresh_token:
-                creds.refresh(Request())
-            else:
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    'credentials.json', SCOPES)
-                creds = flow.run_local_server(port=0)
-            # Save the credentials for the next run
-            #with open('token.pickle', 'wb') as token:
-                #pickle.dump(creds, token)
-        service = build('calendar', 'v3', credentials=creds)
-
-        # Call the Calendar API
-        #予約の判別
-        min = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-        max = (datetime.datetime.utcnow() + datetime.timedelta(days=15)).isoformat() + 'Z'
-
-        print('Getting the 2weeks later event')
-        print(min)
-        print(max)
-        events_result = service.events().list(calendarId='3442e499hjv4j581l1c68n4v2g@group.calendar.google.com', timeMin=min,
-                                            timeMax=max,maxResults=9999, singleEvents=True,
-                                            orderBy='startTime').execute()
-        events = events_result.get('items', [])
-
-        if not events:
-            print("予約なし")
+    """Shows basic usage of the Google Calendar API.
+    Prints the start and name of the next 10 events on the user's calendar.
+    """
+    creds = None
+    # The file token.pickle stores the user's access and refresh tokens, and is
+    # created automatically when the authorization flow completes for the first
+    # time.
+    if os.path.exists('token.pickle'):
+        with open('token.pickle', 'rb') as token:
+            creds = pickle.load(token)
+    # If there are no (valid) credentials available, let the user log in.
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
         else:
-            n = 0
-            for event in events:
-                start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
-                if datetime.datetime.utcnow() + datetime.timedelta(days=12,hours=9) < start < datetime.datetime.utcnow() + datetime.timedelta(days=15,hours=9):
-                    if n == 0:
-                        driver = reserve(start,day)
-                        n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
-                    else:
-                        n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
+            flow = InstalledAppFlow.from_client_secrets_file(
+                'credentials.json', SCOPES)
+            creds = flow.run_local_server(port=0)
+        # Save the credentials for the next run
+        #with open('token.pickle', 'wb') as token:
+            #pickle.dump(creds, token)
+    service = build('calendar', 'v3', credentials=creds)
 
-    except Exception as e:
-        error = str(traceback.format_exc()) +"\ " + str(e)
-        if len(error) > 950:
-            errors = [error[i: i+950] for i in range(0, len(error), 950)]
-            for j in range(len(errors)):
-                send_line(errors[j])
+    # Call the Calendar API
+    #予約の判別
+    min = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    max = (datetime.datetime.utcnow() + datetime.timedelta(days=15)).isoformat() + 'Z'
+
+    print('Getting the 2weeks later event')
+    print(min)
+    print(max)
+    events_result = service.events().list(calendarId='3442e499hjv4j581l1c68n4v2g@group.calendar.google.com', timeMin=min,
+                                        timeMax=max,maxResults=9999, singleEvents=True,
+                                        orderBy='startTime').execute()
+    events = events_result.get('items', [])
+
+    #予約
+    n = 0
+    for event in events:
+        start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
+        if datetime.datetime.utcnow() + datetime.timedelta(days=12,hours=9) < start < datetime.datetime.utcnow() + datetime.timedelta(days=15,hours=9):
+            if n == 0:
+                driver = reserve(start,day)
+                n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
+            else:
+                n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
 
     #参加確認の判別
     for event in events:
