@@ -20,8 +20,8 @@ from get_chrome_driver import GetChromeDriver
 keio_id = os.environ["KEIO_ID"]#""#
 keio_pass = os.environ["KEIO_PASS"]#""#
 tell = os.environ["TELL"]#""#
-line_token = "np51SvAnnMw6ay84USPZhMZb44G0YSAuLRjxYbAYupo"## os.environ["NOTIFY_TOKEN"]
-twin_token = "np51SvAnnMw6ay84USPZhMZb44G0YSAuLRjxYbAYupo"#"np51SvAnnMw6ay84USPZhMZb44G0YSAuLRjxYbAYupo" #ツイン全体 os.environ["TWIN_TOKEN"]
+line_token = os.environ["NOTIFY_TOKEN"]#"np51SvAnnMw6ay84USPZhMZb44G0YSAuLRjxYbAYupo"
+twin_token = os.environ["TWIN_TOKEN"]#"np51SvAnnMw6ay84USPZhMZb44G0YSAuLRjxYbAYupo"
 
 
 
@@ -53,10 +53,8 @@ def reserve(start, day):
     y = res_date.year
     m = res_date.month
     d = res_date.day
-    """
     while datetime.datetime.utcnow() < datetime.datetime(y, m, d, 15, 00, 00):
         time.sleep(1)
-    """
 
     #
     # Chromeドライバーの起動
@@ -298,7 +296,7 @@ def calender():
     n = 0
     for event in events:
         start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
-        if datetime.datetime.utcnow() + datetime.timedelta(days=12,hours=9) < start < datetime.datetime.utcnow() + datetime.timedelta(days=15,hours=9):
+        if datetime.datetime.utcnow() + datetime.timedelta(days=14,hours=9) < start < datetime.datetime.utcnow() + datetime.timedelta(days=15,hours=9):
             if n == 0:
                 driver = reserve(start,day)
                 n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
