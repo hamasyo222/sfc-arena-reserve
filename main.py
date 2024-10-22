@@ -97,13 +97,13 @@ def reserve(start, day):
 
     #keio.jp認証
     #ID
-    driver.find_element(By.CSS_SELECTOR,'#input28').send_keys(keio_id)
+    driver.find_element(By.XPATH,'/html/body/div[2]/div[2]/main/div[2]/div/div/div[2]/form/div[1]/div[3]/div/div[2]/span/input').send_keys(keio_id)
 
     #次へ
     driver.find_element(By.CSS_SELECTOR,'#form20 > div.o-form-button-bar > input').click()
 
     #パスワード
-    driver.find_element(By.CSS_SELECTOR,'#input53').send_keys(keio_pass)#
+    driver.find_element(By.XPATH,'/html/body/div[2]/div[2]/main/div[2]/div/div/div[2]/form/div[1]/div[3]/div/div[2]/span/input').send_keys(keio_pass)#
 
     #確認
     driver.find_element(By.CSS_SELECTOR,'#form45 > div.o-form-button-bar > input').click()
