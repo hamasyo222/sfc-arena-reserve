@@ -66,7 +66,7 @@ def reserve(start, day):
     
     
     
-
+    """
     #0:00まで待機
     res_date = start - datetime.timedelta(days=15)
     y = res_date.year
@@ -75,6 +75,7 @@ def reserve(start, day):
 
     while datetime.datetime.utcnow() < datetime.datetime(y, m, d, 15, 00, 00):
         time.sleep(1)
+    """
 
     #
     # Chromeドライバーの起動
@@ -95,6 +96,7 @@ def reserve(start, day):
     driver.get("https://eqres01.adst.keio.ac.jp/")
 
     #keio.jp認証
+    driver.switch_to.frame(driver.find_element(By.TAG_NAME,'iframe'))
     #ID
     driver.find_element(By.CSS_SELECTOR,'#input28').send_keys(keio_id)
 
@@ -323,7 +325,7 @@ def calender():
             n = 0
             for event in events:
                 start, day, start_hour, start_minute, end_hour, end_minute = setting_time(event)
-                if datetime.datetime.utcnow() + datetime.timedelta(days=14,hours=9) < start < datetime.datetime.utcnow() + datetime.timedelta(days=15,hours=9):
+                if datetime.datetime.utcnow() + datetime.timedelta(days=12,hours=9) < start < datetime.datetime.utcnow() + datetime.timedelta(days=15,hours=9):
                     if n == 0:
                         driver = reserve(start,day)
                         n = select_place(event, day, start_hour, start_minute, end_hour, end_minute, driver, n)
