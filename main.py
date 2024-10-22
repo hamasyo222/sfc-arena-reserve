@@ -12,6 +12,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
+from get_chrome_driver import GetChromeDriver
 
 
 
@@ -46,11 +47,6 @@ def setting_time(event):
 def reserve(start, day):  
     # 操作する
     #
-    # Seleniumをあらゆる環境で起動させるオプション
-    #
-    
-    
-    
     
     #0:00まで待機
     res_date = start - datetime.timedelta(days=15)
@@ -66,8 +62,11 @@ def reserve(start, day):
     # Chromeドライバーの起動
     #
     print("ドライバー起動")
-
-    driver = webdriver.Chrome()
+    get_driver = GetChromeDriver()
+    get_driver.install()
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(20)
 
     #施設予約システムにアクセス
